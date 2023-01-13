@@ -1,0 +1,44 @@
+---
+# This ConfigMap contains the initial configuration
+# file for the Krakend.io API Gateway.
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ include "krakend.fullname" . }}-config
+data:
+  {{ include "krakend.configFileName" . }}: |
+{{- if .Values.krakend.config }}
+{{ .Values.krakend.config | indent 4 }}
+{{- else }}
+    {{`{
+        "$schema": "https://www.krakend.io/schema/v3.json",
+        "version": 3,
+        "name": "{{ env "SERVICE_NAME" }} ({{ .service.environment }})",
+        "port": {{ .service.port }},
+        "timeout": "{{ .service.timeout }}",
+        "cache_ttl":  "{{ .service.cache_ttl }}",
+        "output_encoding": "{{ .service.output_encoding }}",
+        "extra_config": {{ marshal .service.extra_config }},
+        "endpoints": [
+            {{ range $idx, $endpoint := .endpoint.profile }}
+            {{if $idx}},{{end}}
+            {
+                "endpoint": "{{ $endpoint.endpoint }}",
+                "method": "{{ $endpoint.method }}",
+                "backend": [
+                    {
+                    "url_pattern": "{{ $endpoint.backend_url_pattern }}",
+                    "method": "{{ $endpoint.backend_method }}",
+                    "host": [
+                        "{{ $endpoint.backend_host }}"
+                    ],
+                    "extra_config": {
+                        {{ include "rate_limit_backend.tmpl" }}
+                    }
+                    }
+                ]
+            }
+            {{ end }}
+        ]
+    }`}}
+{{- end }}

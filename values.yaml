@@ -6,6 +6,53 @@ image:
   pullPolicy: IfNotPresent
   tag: "latest"
 
+krakend:
+  config: ""
+  partials:
+    input_headers.tmpl: |-
+      "input_headers": [
+        "Content-Type",
+        "ClientId"
+      ]
+    rate_limit_backend.tmpl: |-
+      "qos/ratelimit/proxy": {
+        "max_rate": 0.5,
+        "capacity": 1
+      }
+  settings:
+    endpoint.json: |-
+      {
+          "profile": [
+              {
+                  "endpoint_prefix": "/test-1-api",
+                  "endpoint": "/test-1",
+                  "method": "GET",
+                  "backend_url_pattern": "/__debug/dbg",
+                  "backend_method": "GET",
+                  "backend_host": "http://localhost:8080"
+              },
+              {
+                  "endpoint_prefix": "/test-2-api",
+                  "endpoint": "/test-2",
+                  "method": "GET",
+                  "backend_url_pattern": "/__debug/dbg",
+                  "backend_method": "GET",
+                  "backend_host": "http://localhost:8080"
+              }
+          ]
+      }
+    service.json: |-
+      {
+      	"port": 8080,
+      	"environment": "PRODUCTION",
+      	"default_host": "http://localhost:8080",
+      	"timeout": "3s",
+      	"cache_ttl": "3s",
+      	"output_encoding": "json",
+      	"extra_config": {}
+      }
+  templates: {}
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
