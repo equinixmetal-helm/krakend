@@ -60,3 +60,10 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Get krakend config file name
+*/}}
+{{- define "krakend.configFileName" -}}
+{{- printf "%s.tmpl" (include "krakend.fullname" .) }}
+{{- end }}

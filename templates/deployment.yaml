@@ -11,10 +11,14 @@ spec:
       {{- include "krakend.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
       annotations:
+        checksum/cm-config: {{ include (print $.Template.BasePath "/cm-config.yaml") . | sha256sum }}
+        checksum/cm-partials: {{ include (print $.Template.BasePath "/cm-partials.yaml") . | sha256sum }}
+        checksum/cm-settings: {{ include (print $.Template.BasePath "/cm-settings.yaml") . | sha256sum }}
+        checksum/cm-templates: {{ include (print $.Template.BasePath "/cm-templates.yaml") . | sha256sum }}
+        {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
-      {{- end }}
+        {{- end }}
       labels:
         {{- include "krakend.selectorLabels" . | nindent 8 }}
     spec:
@@ -29,13 +33,13 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: [ "/usr/bin/krakend" ]
           args:
             - "run"
             - "-c"
-            - "/etc/krakend/krakend.json"
+            - "/etc/krakend/{{ include "krakend.configFileName" . }}"
             - "-p"
             - {{ quote .Values.service.targetPort }}
           env:
@@ -53,6 +57,15 @@ spec:
           #   httpGet:
           #     path: /
           #     port: http
+          volumeMounts:
+            - name: config
+              mountPath: /etc/krakend
+            - name: partials
+              mountPath: /etc/krakend/partials
+            - name: settings
+              mountPath: /etc/krakend/settings
+            - name: templates
+              mountPath: /etc/krakend/templates
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
@@ -67,3 +80,16 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      volumes:
+        - name: config
+          configMap:
+            name: {{ include "krakend.fullname" . }}-config
+        - name: partials
+          configMap:
+            name: {{ include "krakend.fullname" . }}-partials
+        - name: settings
+          configMap:
+            name: {{ include "krakend.fullname" . }}-settings
+        - name: templates
+          configMap:
+            name: {{ include "krakend.fullname" . }}-templates
