@@ -18,6 +18,10 @@ data:
         "timeout": "{{ .service.timeout }}",
         "cache_ttl":  "{{ .service.cache_ttl }}",
         "output_encoding": "{{ .service.output_encoding }}",
+        "plugin": {
+            "pattern":".so",
+            "folder": "/usr/lib/krakend/plugins/"
+        },
         "extra_config": {{ marshal .service.extra_config }},
         "endpoints": [
             {{ range $idx, $endpoint := .endpoint.profile }}
