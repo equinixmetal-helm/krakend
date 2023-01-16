@@ -19,26 +19,6 @@ data:
         "cache_ttl":  "{{ .service.cache_ttl }}",
         "output_encoding": "{{ .service.output_encoding }}",
         "extra_config": {{ marshal .service.extra_config }},
-        "endpoints": [
-            {{ range $idx, $endpoint := .endpoint.profile }}
-            {{if $idx}},{{end}}
-            {
-                "endpoint": "{{ $endpoint.endpoint }}",
-                "method": "{{ $endpoint.method }}",
-                "backend": [
-                    {
-                    "url_pattern": "{{ $endpoint.backend_url_pattern }}",
-                    "method": "{{ $endpoint.backend_method }}",
-                    "host": [
-                        "{{ $endpoint.backend_host }}"
-                    ],
-                    "extra_config": {
-                        {{ include "rate_limit_backend.tmpl" }}
-                    }
-                    }
-                ]
-            }
-            {{ end }}
-        ]
+        "endpoints": {{ include "endpoints.tmpl" }}
     }`}}
 {{- end }}
