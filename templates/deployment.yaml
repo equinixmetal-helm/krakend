@@ -49,10 +49,10 @@ spec:
             - name: http
               containerPort: {{ .Values.service.targetPort }}
               protocol: TCP
-          # livenessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: http
+          livenessProbe:
+            httpGet:
+              path: /__health
+              port: http
           # readinessProbe:
           #   httpGet:
           #     path: /
