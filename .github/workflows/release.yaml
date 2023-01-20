@@ -1,0 +1,45 @@
+name: Generate Helm tar and PR
+
+on:
+  push:
+    tags:
+      - '*.*.*'
+
+jobs:
+  prepare-artifacts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout tag
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+          path: krakend-${{ github.ref_name }}
+
+      - name: Checkout equinixmetal-helm/charts
+        uses: actions/checkout@v2
+        with:
+          repository: equinixmetal-helm/charts
+          ref: main
+          path: charts
+
+      - name: Run script to generate artifact
+        run: |
+          cd charts
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          ./prepare-artifacts.sh ../krakend-${{ github.ref_name }}
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.PAT }}
+          commit-message: Add krakend-${{ github.ref_name }} helm chart
+          title: Add krakend-${{ github.ref_name }}
+          body: |
+            Add new krakend-${{ github.ref_name }} helm chart for [krakend](https://github.com/equinixmetal-helm/krakend)
+          branch: add-krakend-${{ github.ref_name }}
+          base: main
+          path: charts
+          labels: |
+            krakend
+            update
