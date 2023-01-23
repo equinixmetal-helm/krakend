@@ -29,6 +29,33 @@ spec:
       serviceAccountName: {{ include "krakend.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: partials-copier
+          image: "{{ .Values.krakend.partialsCopierImage.registry }}/{{ .Values.krakend.partialsCopierImage.repository }}:{{ .Values.krakend.partialsCopierImage.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.krakend.partialsCopierImage.pullPolicy }}
+          command:
+            - /bin/sh
+          args:
+            - "-c"
+            - "cp"
+            - "-r"
+            - "/partials/*"
+            - "/partialsButReally/"
+          volumeMounts:
+            - name: partialsButReally
+              mountPath: /partialsButReally
+            - name: partials
+              mountPath: /partials
+      {{- if .Values.krakend.endpoints.fromImage }}
+        - name: endpoints-copier
+          image: "{{ required "krakend.endpoints.image.registry is required" .Values.krakend.endpoints.image.registry }}/{{ required "krakend.endpoints.image.repository is required" .Values.krakend.endpoints.image.repository }}:{{ required "krakend.endpoints.image.tag is required" .Values.krakend.endpoints.image.tag }}"
+          imagePullPolicy: {{ .Values.krakend.endpoints.image.pullPolicy }}
+          command: {{ .Values.krakend.endpoints.image.command }}
+          args: {{ .Values.krakend.endpoints.image.args }}
+          volumeMounts:
+            - name: partialsButReally
+              mountPath: /endpoints
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -60,7 +87,7 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /etc/krakend
-            - name: partials
+            - name: partialsButReally
               mountPath: /etc/krakend/partials
             - name: settings
               mountPath: /etc/krakend/settings
@@ -93,3 +120,5 @@ spec:
         - name: templates
           configMap:
             name: {{ include "krakend.fullname" . }}-templates
+        - name: partialsButReally
+          emptyDir: {}
