@@ -1,18 +1,35 @@
+# -- (int) Number of replicas to deploy
 replicaCount: 1
 
 image:
+  # -- The image registry to use
   registry: docker.io
+  # -- The image repository to use
   repository: devopsfaith/krakend
-  pullPolicy: IfNotPresent
+  # -- The image tag to use
   tag: "2.1.4"
+  # -- The image pull policy to use
+  pullPolicy: IfNotPresent
 
 krakend:
+  # -- (string, optional) If set, this key will contain the full configuration of the krakend service
   config: ""
+  # -- The default configuration has a partials file that
+  # will be used to load several aspects of the configuration.
+  # This is done through an initContainer that copies the partials
+  # to the /etc/krakend/partials folder.
   partialsCopierImage:
+    # -- (string) The image registry to use for the partials copier
     registry: docker.io
+    # -- (string) The image repository to use for the partials copier
     repository: library/alpine
+    # -- (string) The image tag to use for the partials copier
     tag: "3.17.1"
+    # -- (string) The image pull policy to use for the partials copier
     pullPolicy: IfNotPresent
+  # -- (Object) The default configuration has a partials files that
+  # will be used to load several aspects of the configuration.
+  # If you want to include expra partials, add or remove them here.
   partials:
     input_headers.tmpl: |-
       "input_headers": [
@@ -24,6 +41,8 @@ krakend:
         "max_rate": 0.5,
         "capacity": 1
       }
+  # -- The default configuration has a settings files that
+  # will be used to load several aspects of the configuration.
   settings:
     service.json: |-
       {
@@ -35,25 +54,42 @@ krakend:
       	"output_encoding": "json",
       	"extra_config": {}
       }
+  # -- While default configuration does not take into use
+  # templates; you may want to add your own templates here.
+  # Note that you'd need to set a custom configuration file
+  # to use them.
   templates: {}
+  # -- Given that endpoitns is where most of the verbosity
+  # of the configuration is, it's possible to load them
+  # from a configmap or from an image. This section allows
+  # you to configure the relevant settings.
   endpoints:
-    # fromImage is a flag to indicate that the endpoints should be loaded from the image
-    # instead of the configmap. This happens as an initContainer.
+    # -- Use this flag to indicate that the endpoints should be
+    # loaded from the image instead of the configmap. This
+    # happens as an initContainer.
     fromImage: false
-    # image is the image to use to load the endpoints from
+    # -- This is the image to use to load the endpoints from.
     # Note that the registry, repository and tag must be set.
     image:
+      # -- The image registry to use for the endpoints loader
       registry:
+      # -- The image repository to use for the endpoints loader
+      # Note that the image must contain a file named endpoints.json
+      # at the root of the image.
       repository:
+      # -- The image tag to use for the endpoints loader
       tag:
+      # -- The image pull policy to use for the endpoints loader
       pullPolicy: IfNotPresent
+      # -- The command to use to load the endpoints from the image.
       command: [ "/bin/sh" ]
+      # -- The arguments to use to load the endpoints from the image.
       args:
         - "-c"
         - cp
         - /endpoints.json
         - /endpoints/endpoints.tmpl
-    # If `fromImage` is set to false, the endpoints will be loaded from the
+    # -- If `fromImage` is set to false, the endpoints will be loaded from the
     # partials configmap with this configuration
     endpointsConfig: |-
       [
@@ -85,22 +121,28 @@ krakend:
         }
       ]
 
+# -- (list) List of secrets containing the credentials to use for the image
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
 serviceAccount:
+  # -- (bool) Specifies whether a service account should be created
   create: true
+  # -- (object) The annotations to use for the service account
   annotations: {}
-  # The name of the service account to use.
+  # -- (string) The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
+# -- (object) The annotations to use for the krakend pod
 podAnnotations: {}
 
+# -- (object) The securityContext to use for the krakend pod
 podSecurityContext: {}
   # fsGroup: 2000
 
+# -- (object) The securityContext to use for the krakend container
 securityContext: {}
   # capabilities:
   #   drop:
@@ -109,17 +151,26 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
+# -- (object) The service settings to use for the krakend service
 service:
+  # -- (string) The type of service to use
   type: ClusterIP
+  # -- (int) The port to use for the service
   port: 80
+  # -- (int) The target port to use for the service
   targetPort: 8080
 
+# -- (object) The ingress settings to use for the krakend ingress
 ingress:
+  # -- (bool) Specifies whether an ingress should be created
   enabled: false
+  # -- (string) The class to use for the ingress
   className: ""
+  # -- (object) The annotations to use for the ingress
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
+  # -- (list) The list of hosts to use for the ingress
   hosts:
     - host: chart-example.local
       paths:
@@ -130,10 +181,14 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
+# -- (object) The resources to use for the krakend pod
 resources: {}
 
+# -- (object) The nodeSelector to use for the krakend pod
 nodeSelector: {}
 
+# -- (object) The tolerations to use for the krakend pod
 tolerations: []
 
+# -- (object) The affinity to use for the krakend pod
 affinity: {}

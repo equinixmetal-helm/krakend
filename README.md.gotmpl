@@ -1,0 +1,33 @@
+# Krakend
+
+![Version: {{ .Version }}](https://img.shields.io/badge/Version-{{ .Version | replace "-" "--" }}-informational?style=for-the-badge)
+{{ if .Type }}![Type: {{ .Type }}](https://img.shields.io/badge/Type-{{ .Type }}-informational?style=for-the-badge) {{ end }}
+{{ if .AppVersion }}![AppVersion: {{ .AppVersion }}](https://img.shields.io/badge/AppVersion-{{ .AppVersion | replace "-" "--" }}-informational?style=for-the-badge) {{ end }}
+
+This is a helm chart that deploys a [Krakend](https://www.krakend.io/) instance.
+
+## Description
+
+{{ template "chart.description" . }}
+
+## Usage
+
+Note that for a further description on how to use partials, settings and templates,
+please refer to [the official krakend documentation](https://www.krakend.io/docs/configuration/flexible-config/).
+
+{{ template "chart.valuesSection" . }}
+
+## Development
+
+### Prerequisites
+
+- [helm](https://helm.sh/docs/intro/install/)
+- [helm-docs](https://github.com/norwoodj/helm-docs)
+
+### Testing
+
+Ensure that the documentation is up to date before pushing a pull request:
+
+```bash
+helm-docs
+```
