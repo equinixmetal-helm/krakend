@@ -1,0 +1,3 @@
+misconfiguration:
+  values:
+    - tests/with-endpoints-image/values.yaml

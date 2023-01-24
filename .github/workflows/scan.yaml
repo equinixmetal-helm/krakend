@@ -1,0 +1,44 @@
+---
+name: Security
+
+# Run for all pushes to master and pull requests when Go or YAML files change
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  schedule:
+    - cron: '23 20 * * 2'
+
+jobs:
+  security-repo-scan:
+    name: security-repo-scan
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - name: 'Scenario: with default options'
+            trivy-config: tests/default-data/trivy-config.yaml
+          - name: 'Scenario: with endpoints image'
+            trivy-config: tests/custom-data/trivy-config.yaml
+    steps:
+      - name: Checkout 
+        uses: actions/checkout@v3
+      
+      - name: 'Run security scanner: ${{ matrix.config.name }}'
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          security-checks: 'vuln,secret,config'
+          ignore-unfixed: true
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'HIGH,CRITICAL'
+          skip-dirs: 'tests'
+          trivy-config: ${{ matrix.trivy-config }}
+
+      - name: 'Upload results for: ${{ matrix.config.name }}'
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-results.sarif'
