@@ -62,8 +62,51 @@ Create the name of the service account to use
 {{- end }}
 
 {{/*
+Get krakend files directory
+*/}}
+{{- define "krakend.FilesDir" -}}
+{{- printf "/etc/krakend-src" -}}
+{{- end }}
+
+
+{{/*
+Get krakend config file directory
+*/}}
+{{- define "krakend.configFileDir" -}}
+{{- printf "%s/config" (include "krakend.FilesDir" .) -}}
+{{- end }}
+
+{{/*
 Get krakend config file name
 */}}
 {{- define "krakend.configFileName" -}}
-{{- printf "%s.tmpl" (include "krakend.fullname" .) }}
+{{- printf "%s.tmpl" (include "krakend.fullname" .) -}}
+{{- end }}
+
+{{/*
+Get krakend config file path
+*/}}
+{{- define "krakend.configFilePath" -}}
+{{- printf "%s/%s" (include "krakend.configFileDir" .) (include "krakend.configFileName" .) -}}
+{{- end }}
+
+{{/*
+Get krakend settings directory path
+*/}}
+{{- define "krakend.settingsDir" -}}
+{{- printf "%s/settings" (include "krakend.FilesDir" .) -}}
+{{- end }}
+
+{{/*
+Get krakend partials directory path
+*/}}
+{{- define "krakend.partialsDir" -}}
+{{- printf "%s/partials" (include "krakend.FilesDir" .) -}}
+{{- end }}
+
+{{/*
+Get krakend templates directory path
+*/}}
+{{- define "krakend.templatesDir" -}}
+{{- printf "%s/templates" (include "krakend.FilesDir" .) -}}
 {{- end }}

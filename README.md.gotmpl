@@ -31,3 +31,29 @@ Ensure that the documentation is up to date before pushing a pull request:
 ```bash
 helm-docs
 ```
+
+# Using Krakend.io Enterprise
+
+Krakend.io Enterprise is a commercial product that extends the capabilities
+of the open source Krakend.io API Gateway. It is available as a Docker image
+that can be used as a drop-in replacement for the open source image.
+
+In order to configure the helm chart to use it, you'd need a values file similar
+as the following:
+
+```yaml
+image:
+  registry: docker.io
+  repository: krakend/krakend-ee
+  tag: "2.1.2"
+extraVolumeMounts:
+  - name: license
+    mountPath: /etc/krakend/LICENSE
+    readOnly: true
+extraVolumes:
+  - name: license
+    secret:
+      secretName: krakend-license
+```
+
+Note the mount of the license file in the `/etc/krakend/LICENSE` path.

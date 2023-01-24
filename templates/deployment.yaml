@@ -37,7 +37,7 @@ spec:
             - /bin/sh
           args:
             - "-c"
-            - "cp -r /partials/* /partials-but-really/"
+            - "cp /partials/* /partials-but-really/"
           volumeMounts:
             - name: partials-but-really
               mountPath: /partials-but-really
@@ -66,7 +66,7 @@ spec:
           args:
             - "run"
             - "-c"
-            - "/etc/krakend/{{ include "krakend.configFileName" . }}"
+            - "{{ include "krakend.configFilePath" . }}"
             - "-p"
             - {{ quote .Values.service.targetPort }}
           env:
@@ -89,13 +89,16 @@ spec:
           #     port: http
           volumeMounts:
             - name: config
-              mountPath: /etc/krakend
+              mountPath: {{ include "krakend.configFileDir" . }}
             - name: partials-but-really
-              mountPath: /etc/krakend/partials
+              mountPath: {{ include "krakend.partialsDir" . }}
             - name: settings
-              mountPath: /etc/krakend/settings
+              mountPath: {{ include "krakend.settingsDir" . }}
             - name: templates
-              mountPath: /etc/krakend/templates
+              mountPath: {{ include "krakend.templatesDir" . }}
+            {{- with .Values.extraVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
@@ -125,3 +128,6 @@ spec:
             name: {{ include "krakend.fullname" . }}-templates
         - name: partials-but-really
           emptyDir: {}
+        {{- with .Values.extraVolumes }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
