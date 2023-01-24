@@ -20,6 +20,8 @@ please refer to [the official krakend documentation](https://www.krakend.io/docs
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` | The affinity to use for the krakend pod |
+| extraVolumeMounts | array | `[]` | extraVolumeMounts allows you to mount extra volumes to the krakend pod |
+| extraVolumes | array | `[]` | extraVolumes allows you to mount extra volumes to the krakend pod |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` | The image pull policy to use |
 | image.registry | string | `"docker.io"` | The image registry to use |
@@ -42,7 +44,7 @@ please refer to [the official krakend documentation](https://www.krakend.io/docs
 | krakend.endpoints.image.registry | string | `nil` | The image registry to use for the endpoints loader |
 | krakend.endpoints.image.repository | string | `nil` | The image repository to use for the endpoints loader Note that the image must contain a file named endpoints.json at the root of the image. |
 | krakend.endpoints.image.tag | string | `nil` | The image tag to use for the endpoints loader |
-| krakend.env | array | `[{"name":"FC_ENABLE","value":"1"},{"name":"FC_SETTINGS","value":"/etc/krakend/settings"},{"name":"FC_PARTIALS","value":"/etc/krakend/partials"},{"name":"FC_TEMPLATES","value":"/etc/krakend/templates"}]` | The environment variables to use for the krakend container. The default is just the ones needed to enable flexible configuration. |
+| krakend.env | array | `[{"name":"FC_ENABLE","value":"1"},{"name":"FC_SETTINGS","value":"/etc/krakend-src/settings"},{"name":"FC_PARTIALS","value":"/etc/krakend-src/partials"},{"name":"FC_TEMPLATES","value":"/etc/krakend-src/templates"}]` | The environment variables to use for the krakend container. The default is just the ones needed to enable flexible configuration. |
 | krakend.partials | Object | `{"input_headers.tmpl":"\"input_headers\": [\n  \"Content-Type\",\n  \"ClientId\"\n]","rate_limit_backend.tmpl":"\"qos/ratelimit/proxy\": {\n  \"max_rate\": 0.5,\n  \"capacity\": 1\n}"}` | The default configuration has a partials files that will be used to load several aspects of the configuration. If you want to include expra partials, add or remove them here. |
 | krakend.partialsCopierImage | object | `{"pullPolicy":"IfNotPresent","registry":"docker.io","repository":"library/alpine","tag":"3.17.1"}` | The default configuration has a partials file that will be used to load several aspects of the configuration. This is done through an initContainer that copies the partials to the /etc/krakend/partials folder. |
 | krakend.partialsCopierImage.pullPolicy | string | `"IfNotPresent"` | The image pull policy to use for the partials copier |
@@ -81,3 +83,29 @@ Ensure that the documentation is up to date before pushing a pull request:
 ```bash
 helm-docs
 ```
+
+# Using Krakend.io Enterprise
+
+Krakend.io Enterprise is a commercial product that extends the capabilities
+of the open source Krakend.io API Gateway. It is available as a Docker image
+that can be used as a drop-in replacement for the open source image.
+
+In order to configure the helm chart to use it, you'd need a values file similar
+as the following:
+
+```yaml
+image:
+  registry: docker.io
+  repository: krakend/krakend-ee
+  tag: "2.1.2"
+extraVolumeMounts:
+  - name: license
+    mountPath: /etc/krakend/LICENSE
+    readOnly: true
+extraVolumes:
+  - name: license
+    secret:
+      secretName: krakend-license
+```
+
+Note the mount of the license file in the `/etc/krakend/LICENSE` path.

@@ -1,0 +1,8 @@
+extraVolumeMounts:
+  - name: license
+    mountPath: /etc/krakend
+    readOnly: true
+extraVolumes:
+  - name: license
+    secret:
+      secretName: krakend-license

@@ -18,6 +18,8 @@ jobs:
             testdir: 'default-data'
           - name: 'Scenario: with endpoints image'
             testdir: 'with-endpoints-image'
+          - name: 'Scenario: with extra mounts'
+            testdir: 'with-extra-mounts'
     env:
       KRAKEND_NS: krakend-test
     steps:
@@ -49,6 +51,14 @@ jobs:
         if: matrix.config.testdir == 'with-endpoints-image'
         run: |
           kind load docker-image --name chart-testing krakend-test:latest
+
+      # We copy our license file (which is just the apache license) into a secret with a sole key named LICENSE.
+      # This will be bind mounted into the krakend container as /etc/krakend/LICENSE.
+      # We're not testing the functionality of loading an actual krakend license here, just that the extra mount works.
+      - name: 'Create license secret'
+        run: |
+          kubectl create secret generic krakend-license --from-file=LICENSE=LICENSE --namespace $KRAKEND_NS
+        if: matrix.config.testdir == 'with-extra-mounts'
       
       - name: Install chart
         run: |

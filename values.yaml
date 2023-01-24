@@ -18,11 +18,11 @@ krakend:
     - name: FC_ENABLE
       value: '1'
     - name: FC_SETTINGS
-      value: '/etc/krakend/settings'
+      value: '/etc/krakend-src/settings'
     - name: FC_PARTIALS
-      value: '/etc/krakend/partials'
+      value: '/etc/krakend-src/partials'
     - name: FC_TEMPLATES
-      value: '/etc/krakend/templates'
+      value: '/etc/krakend-src/templates'
   # -- (string, optional) If set, this key will contain the full configuration of the krakend service
   config: ""
   # -- The default configuration has a partials file that
@@ -201,3 +201,9 @@ tolerations: []
 
 # -- (object) The affinity to use for the krakend pod
 affinity: {}
+
+# -- (array) extraVolumeMounts allows you to mount extra volumes to the krakend pod
+extraVolumeMounts: []
+
+# -- (array) extraVolumes allows you to mount extra volumes to the krakend pod
+extraVolumes: []
