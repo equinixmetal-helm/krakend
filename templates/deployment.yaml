@@ -37,23 +37,23 @@ spec:
             - /bin/sh
           args:
             - "-c"
-            - "cp"
-            - "-r"
-            - "/partials/*"
-            - "/partialsButReally/"
+            - "cp -r /partials/* /partials-but-really/"
           volumeMounts:
-            - name: partialsButReally
-              mountPath: /partialsButReally
+            - name: partials-but-really
+              mountPath: /partials-but-really
             - name: partials
               mountPath: /partials
       {{- if .Values.krakend.endpoints.fromImage }}
         - name: endpoints-copier
-          image: "{{ required "krakend.endpoints.image.registry is required" .Values.krakend.endpoints.image.registry }}/{{ required "krakend.endpoints.image.repository is required" .Values.krakend.endpoints.image.repository }}:{{ required "krakend.endpoints.image.tag is required" .Values.krakend.endpoints.image.tag }}"
+          image: "{{ .Values.krakend.endpoints.image.registry }}{{ if .Values.krakend.endpoints.image.registry }}/{{ end }}{{ required "krakend.endpoints.image.repository is required" .Values.krakend.endpoints.image.repository }}:{{ required "krakend.endpoints.image.tag is required" .Values.krakend.endpoints.image.tag }}"
           imagePullPolicy: {{ .Values.krakend.endpoints.image.pullPolicy }}
           command: {{ .Values.krakend.endpoints.image.command }}
-          args: {{ .Values.krakend.endpoints.image.args }}
+          {{- with .Values.krakend.endpoints.image.args }}
+          args:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           volumeMounts:
-            - name: partialsButReally
+            - name: partials-but-really
               mountPath: /endpoints
       {{- end }}
       containers:
@@ -72,6 +72,9 @@ spec:
           env:
             - name: KRAKEND_PORT
               value: {{ quote .Values.service.targetPort }}
+            {{- with .Values.krakend.env }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.service.targetPort }}
@@ -87,7 +90,7 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /etc/krakend
-            - name: partialsButReally
+            - name: partials-but-really
               mountPath: /etc/krakend/partials
             - name: settings
               mountPath: /etc/krakend/settings
@@ -120,5 +123,5 @@ spec:
         - name: templates
           configMap:
             name: {{ include "krakend.fullname" . }}-templates
-        - name: partialsButReally
+        - name: partials-but-really
           emptyDir: {}
