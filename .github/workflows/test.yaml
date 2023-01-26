@@ -1,0 +1,59 @@
+---
+name: Test
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test-kind:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - name: 'Scenario: with default options'
+            testdir: 'default-data'
+          - name: 'Scenario: with endpoints image'
+            testdir: 'with-endpoints-image'
+    env:
+      KRAKEND_NS: krakend-test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: 'Install helm'
+        uses: azure/setup-helm@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 'Install kind'
+        uses: helm/kind-action@v1.5.0
+
+      - name: 'Get k8s nodes'
+        run: |
+          kubectl get nodes
+
+      - name: 'Create namespace'
+        run: |
+          kubectl create namespace $KRAKEND_NS
+
+      - name: 'Build image if needed'
+        if: matrix.config.testdir == 'with-endpoints-image'
+        run: |
+          docker build -t krakend-test:latest -f tests/${{ matrix.config.testdir }}/Dockerfile tests/${{ matrix.config.testdir }}
+
+      - name: 'Load image if needed'
+        if: matrix.config.testdir == 'with-endpoints-image'
+        run: |
+          kind load docker-image --name chart-testing krakend-test:latest
+      
+      - name: Install chart
+        run: |
+          helm install krakend-test ./ --wait --namespace $KRAKEND_NS --values tests/${{ matrix.config.testdir }}/values.yaml
+
+      - name: Wait for krakend deployment
+        run: |
+          kubectl wait --namespace $KRAKEND_NS --for=condition=available deployment krakend-test

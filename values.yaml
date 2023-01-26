@@ -12,6 +12,17 @@ image:
   pullPolicy: IfNotPresent
 
 krakend:
+  # -- (array) The environment variables to use for the krakend container.
+  # The default is just the ones needed to enable flexible configuration.
+  env:
+    - name: FC_ENABLE
+      value: '1'
+    - name: FC_SETTINGS
+      value: '/etc/krakend/settings'
+    - name: FC_PARTIALS
+      value: '/etc/krakend/partials'
+    - name: FC_TEMPLATES
+      value: '/etc/krakend/templates'
   # -- (string, optional) If set, this key will contain the full configuration of the krakend service
   config: ""
   # -- The default configuration has a partials file that
@@ -86,9 +97,7 @@ krakend:
       # -- The arguments to use to load the endpoints from the image.
       args:
         - "-c"
-        - cp
-        - /endpoints.json
-        - /endpoints/endpoints.tmpl
+        - "cp /endpoints.json /endpoints/endpoints.tmpl"
     # -- If `fromImage` is set to false, the endpoints will be loaded from the
     # partials configmap with this configuration
     endpointsConfig: |-

@@ -2,6 +2,6 @@ krakend:
   endpoints:
     fromImage: true
     image:
-      repository: ghcr.io/krakend-io/krakend-endpoint
-      tag: 1.0.0
-      pullPolicy: IfNotPresent
+      repository: krakend-test
+      tag: latest
+      pullPolicy: Never
