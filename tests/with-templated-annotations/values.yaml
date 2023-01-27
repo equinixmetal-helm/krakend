@@ -1,0 +1,7 @@
+---
+clusterInfo:
+  fqdn: "test-cluster.example.com"
+
+service:
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: krakend-0.{{ .Values.clusterInfo.fqdn }}

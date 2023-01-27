@@ -4,9 +4,11 @@ metadata:
   name: {{ include "krakend.fullname" . }}
   labels:
     {{- include "krakend.labels" . | nindent 4 }}
-  {{- with .Values.service.annotations }}
+  {{- if .Values.service.annotations }}
   annotations:
-    {{- toYaml . | nindent 4 }}
+    {{- range $key, $value := .Values.service.annotations }}
+    {{ $key }}: {{ tpl $value $ | quote }}
+    {{- end }}
   {{- end }}
 spec:
   type: {{ .Values.service.type }}

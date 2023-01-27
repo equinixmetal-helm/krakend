@@ -20,6 +20,8 @@ jobs:
             testdir: 'with-endpoints-image'
           - name: 'Scenario: with extra mounts'
             testdir: 'with-extra-mounts'
+          - name: 'Scenario: with templated annotations'
+            testdir: 'with-templated-annotations'
     env:
       KRAKEND_NS: krakend-test
     steps:
