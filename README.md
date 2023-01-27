@@ -60,7 +60,8 @@ please refer to [the official krakend documentation](https://www.krakend.io/docs
 | replicaCount | int | `1` | Number of replicas to deploy |
 | resources | object | `{}` | The resources to use for the krakend pod |
 | securityContext | object | `{}` | The securityContext to use for the krakend container |
-| service | object | `{"port":80,"targetPort":8080,"type":"ClusterIP"}` | The service settings to use for the krakend service |
+| service | object | `{"annotations":{},"port":80,"targetPort":8080,"type":"ClusterIP"}` | The service settings to use for the krakend service |
+| service.annotations | object | `{}` | The annotations to use for the service |
 | service.port | int | `80` | The port to use for the service |
 | service.targetPort | int | `8080` | The target port to use for the service |
 | service.type | string | `"ClusterIP"` | The type of service to use |
