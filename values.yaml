@@ -38,6 +38,14 @@ krakend:
     tag: "3.17.1"
     # -- (string) The image pull policy to use for the partials copier
     pullPolicy: IfNotPresent
+    # -- (object) The resources to use for the partials copier
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 100m
+        memory: 128Mi
   # -- (Object) The default configuration has a partials files that
   # will be used to load several aspects of the configuration.
   # If you want to include expra partials, add or remove them here.
@@ -98,6 +106,14 @@ krakend:
       args:
         - "-c"
         - "cp /endpoints.json /endpoints/endpoints.tmpl"
+      # -- (object) The resources to use for the endpoints loader
+      resources:
+        requests:
+          cpu: 100m
+          memory: 128Mi
+        limits:
+          cpu: 100m
+          memory: 128Mi
     # -- If `fromImage` is set to false, the endpoints will be loaded from the
     # partials configmap with this configuration
     endpointsConfig: |-
