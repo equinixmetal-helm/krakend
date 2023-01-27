@@ -59,7 +59,7 @@ please refer to [the official krakend documentation](https://www.krakend.io/docs
 | podSecurityContext | object | `{}` | The securityContext to use for the krakend pod |
 | replicaCount | int | `1` | Number of replicas to deploy |
 | resources | object | `{}` | The resources to use for the krakend pod |
-| securityContext | object | `{}` | The securityContext to use for the krakend container |
+| securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"add":["NET_BIND_SERVICE"],"drop":["ALL"]},"readOnlyRootFilesystem":true,"runAsNonRoot":true,"runAsUser":1000}` | The securityContext to use for the krakend container |
 | service | object | `{"annotations":{},"port":80,"targetPort":8080,"type":"ClusterIP"}` | The service settings to use for the krakend service |
 | service.annotations | object | `{}` | The annotations to use for the service |
 | service.port | int | `80` | The port to use for the service |

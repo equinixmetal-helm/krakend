@@ -33,6 +33,15 @@ spec:
         - name: partials-copier
           image: "{{ .Values.krakend.partialsCopierImage.registry }}/{{ .Values.krakend.partialsCopierImage.repository }}:{{ .Values.krakend.partialsCopierImage.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.krakend.partialsCopierImage.pullPolicy }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
           command:
             - /bin/sh
           args:
@@ -47,6 +56,15 @@ spec:
         - name: endpoints-copier
           image: "{{ .Values.krakend.endpoints.image.registry }}{{ if .Values.krakend.endpoints.image.registry }}/{{ end }}{{ required "krakend.endpoints.image.repository is required" .Values.krakend.endpoints.image.repository }}:{{ required "krakend.endpoints.image.tag is required" .Values.krakend.endpoints.image.tag }}"
           imagePullPolicy: {{ .Values.krakend.endpoints.image.pullPolicy }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            capabilities:
+              drop:
+                - ALL
           command: {{ .Values.krakend.endpoints.image.command }}
           {{- with .Values.krakend.endpoints.image.args }}
           args:
@@ -88,6 +106,8 @@ spec:
           #     path: /
           #     port: http
           volumeMounts:
+            - name: tmp
+              mountPath: /tmp
             - name: config
               mountPath: {{ include "krakend.configFileDir" . }}
             - name: partials-but-really
@@ -114,6 +134,8 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:
+        - name: tmp
+          emptyDir: {}
         - name: config
           configMap:
             name: {{ include "krakend.fullname" . }}-config
