@@ -36,6 +36,11 @@ jobs:
       - name: 'Install kind'
         uses: helm/kind-action@v1.5.0
 
+      - name: Install jq
+        run: |
+          sudo apt-get update
+          sudo apt-get install jq
+
       - name: 'Get k8s nodes'
         run: |
           kubectl get nodes
@@ -69,3 +74,21 @@ jobs:
       - name: Wait for krakend deployment
         run: |
           kubectl wait --namespace $KRAKEND_NS --for=condition=available deployment krakend-test
+
+      - name: Port forward service for testing
+        run: |
+          kubectl port-forward --namespace $KRAKEND_NS service/krakend-test 8081:80 &
+
+      - name: Test that status is OK
+        run: |
+          curl -s http://localhost:8081/__health | jq -e '.status == "ok"'
+
+      - name: Test that response is correct
+        run: |
+          curl -s http://localhost:8081/test | jq -e '.version == "deficient"'
+        if: matrix.config.testdir != 'with-endpoints-image'
+
+      - name: Test that response is correct
+        run: |
+          curl -s http://localhost:8081/directories/1 | jq -e '.version == "flavorless"'
+        if: matrix.config.testdir == 'with-endpoints-image'

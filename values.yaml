@@ -103,30 +103,37 @@ krakend:
     endpointsConfig: |-
       [
         {
-          "endpoint": "/test-1",
+          "endpoint": "/test",
           "method": "GET",
           "backend": [
-            {
-              "url_pattern": "/__debug/dbg",
-              "method": "GET",
-              "host": [
-                "http://localhost:8080"
-              ]
-            }
-          ]
-        },
-        {
-          "endpoint": "/test-2",
-          "method": "GET",
-          "backend": [
-            {
-              "url_pattern": "/__debug/dbg",
-              "method": "GET",
-              "host": [
-                "http://localhost:8080"
-              ]
-            }
-          ]
+              {
+                  "method": "GET",
+                  "host": [],
+                  "url_pattern": "/__debug/roots",
+                  "encoding": "json",
+                  "deny": [
+                      "message"
+                  ]
+              }
+          ],
+          "extra_config": {
+              "proxy": {
+                  "static": {
+                      "data": {
+                          "collection": [
+                              {
+                                  "directories": [
+                                      "Graceland"
+                                  ]
+                              }
+                          ],
+                          "version": "deficient"
+                      },
+                      "strategy": "always"
+                  }
+              }
+          },
+          "output_encoding": "json"
         }
       ]
 
