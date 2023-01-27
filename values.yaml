@@ -168,6 +168,8 @@ service:
   port: 80
   # -- (int) The target port to use for the service
   targetPort: 8080
+  # -- (object) The annotations to use for the service
+  annotations: {}
 
 # -- (object) The ingress settings to use for the krakend ingress
 ingress:
