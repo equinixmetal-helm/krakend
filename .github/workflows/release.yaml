@@ -22,3 +22,18 @@ jobs:
           charts_url: 'https://helm.equinixmetal.com'
           repository: 'charts'
           branch: gh-pages
+
+  gh-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          generate_release_notes: true
+
