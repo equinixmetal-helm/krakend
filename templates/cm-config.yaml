@@ -14,7 +14,7 @@ data:
         "$schema": "https://www.krakend.io/schema/v3.json",
         "version": 3,
         "name": "{{ env "SERVICE_NAME" }} ({{ .service.environment }})",
-        "port": {{ .service.port }},
+        "port": `}}{{ .Values.service.targetPort }}{{`,
         "timeout": "{{ .service.timeout }}",
         "cache_ttl":  "{{ .service.cache_ttl }}",
         "output_encoding": "{{ .service.output_encoding }}",
@@ -22,7 +22,7 @@ data:
             "pattern":".so",
             "folder": "/usr/lib/krakend/plugins/"
         },
-        "extra_config": {{ marshal .service.extra_config }},
-        "endpoints": {{ include "endpoints.tmpl" }}
+        "endpoints": {{ include "endpoints.tmpl" }},
+        "extra_config": `}}{{ .Values.krakend.extraConfig | toJson }}{{`
     }`}}
 {{- end }}
