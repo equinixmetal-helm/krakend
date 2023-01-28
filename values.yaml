@@ -65,26 +65,27 @@ krakend:
   settings:
     service.json: |-
       {
-      	"port": 8080,
       	"environment": "PRODUCTION",
       	"default_host": "http://localhost:8080",
       	"timeout": "3s",
       	"cache_ttl": "3s",
-      	"output_encoding": "json",
-      	"extra_config": {
-          "router": {
-            "@comment": "The health endpoint checks do not show in the logs",
-            "logger_skip_paths": [
-              "/__health"
-            ]
-          }
-        }
+      	"output_encoding": "json"
       }
   # -- While default configuration does not take into use
   # templates; you may want to add your own templates here.
   # Note that you'd need to set a custom configuration file
   # to use them.
   templates: {}
+  # -- (object) The service-level "extra_config" settings.
+  # This will directly be translated to JSON and is added only
+  # if you're not fully overriding the configuration via
+  # the `config` setting.
+  # For more information, see https://www.krakend.io/docs/enterprise/configuration/
+  extraConfig:
+    router:
+      "@comment": "The health endpoint checks do not show in the logs"
+      logger_skip_paths:
+        - "/__health"
   # -- Given that endpoitns is where most of the verbosity
   # of the configuration is, it's possible to load them
   # from a configmap or from an image. This section allows
