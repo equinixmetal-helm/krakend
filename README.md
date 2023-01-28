@@ -53,7 +53,7 @@ please refer to [the official krakend documentation](https://www.krakend.io/docs
 | krakend.partialsCopierImage.repository | string | `"library/alpine"` | The image repository to use for the partials copier |
 | krakend.partialsCopierImage.resources | object | `{"limits":{"cpu":"100m","memory":"128Mi"},"requests":{"cpu":"100m","memory":"128Mi"}}` | The resources to use for the partials copier |
 | krakend.partialsCopierImage.tag | string | `"3.17.1"` | The image tag to use for the partials copier |
-| krakend.settings | object | `{"service.json":"{\n\t\"port\": 8080,\n\t\"environment\": \"PRODUCTION\",\n\t\"default_host\": \"http://localhost:8080\",\n\t\"timeout\": \"3s\",\n\t\"cache_ttl\": \"3s\",\n\t\"output_encoding\": \"json\",\n\t\"extra_config\": {}\n}"}` | The default configuration has a settings files that will be used to load several aspects of the configuration. |
+| krakend.settings | object | `{"service.json":"{\n\t\"port\": 8080,\n\t\"environment\": \"PRODUCTION\",\n\t\"default_host\": \"http://localhost:8080\",\n\t\"timeout\": \"3s\",\n\t\"cache_ttl\": \"3s\",\n\t\"output_encoding\": \"json\",\n\t\"extra_config\": {\n    \"router\": {\n      \"@comment\": \"The health endpoint checks do not show in the logs\",\n      \"logger_skip_paths\": [\n        \"/__health\"\n      ]\n    }\n  }\n}"}` | The default configuration has a settings files that will be used to load several aspects of the configuration. |
 | krakend.templates | object | `{}` | While default configuration does not take into use templates; you may want to add your own templates here. Note that you'd need to set a custom configuration file to use them. |
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` | The nodeSelector to use for the krakend pod |

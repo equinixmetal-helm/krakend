@@ -71,7 +71,14 @@ krakend:
       	"timeout": "3s",
       	"cache_ttl": "3s",
       	"output_encoding": "json",
-      	"extra_config": {}
+      	"extra_config": {
+          "router": {
+            "@comment": "The health endpoint checks do not show in the logs",
+            "logger_skip_paths": [
+              "/__health"
+            ]
+          }
+        }
       }
   # -- While default configuration does not take into use
   # templates; you may want to add your own templates here.
