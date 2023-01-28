@@ -105,10 +105,10 @@ spec:
             httpGet:
               path: /__health
               port: http
-          # readinessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: http
+          readinessProbe:
+            httpGet:
+              path: /__health
+              port: http
           volumeMounts:
             - name: tmp
               mountPath: /tmp
