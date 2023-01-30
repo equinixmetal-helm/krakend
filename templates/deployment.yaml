@@ -1,5 +1,13 @@
+{{- if and (not (eq .Values.deploymentType "deployment")) (not (eq .Values.deploymentType "rollout")) }}
+{{- fail "Invalid deploymentType. Valid values are: deployment, rollout" }}
+{{- end }}
+{{- if eq .Values.deploymentType "deployment" }}
 apiVersion: apps/v1
 kind: Deployment
+{{- else if eq .Values.deploymentType "rollout" }}
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+{{- end }}
 metadata:
   name: {{ include "krakend.fullname" . }}
   labels:
@@ -9,6 +17,12 @@ spec:
   selector:
     matchLabels:
       {{- include "krakend.selectorLabels" . | nindent 6 }}
+  {{- if eq .Values.deploymentType "rollout" }}
+  {{- with .Values.rolloutStrategy }}
+  strategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- end }}
   template:
     metadata:
       annotations:

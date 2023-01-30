@@ -20,6 +20,7 @@ please refer to [the official krakend documentation](https://www.krakend.io/docs
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` | The affinity to use for the krakend pod |
+| deploymentType | string | `"deployment"` | The deployment type to use for the krakend service Valid values are `deployment` and `rollout` |
 | extraVolumeMounts | array | `[]` | extraVolumeMounts allows you to mount extra volumes to the krakend pod |
 | extraVolumes | array | `[]` | extraVolumes allows you to mount extra volumes to the krakend pod |
 | fullnameOverride | string | `""` |  |
@@ -62,6 +63,7 @@ please refer to [the official krakend documentation](https://www.krakend.io/docs
 | podSecurityContext | object | `{}` | The securityContext to use for the krakend pod |
 | replicaCount | int | `1` | Number of replicas to deploy |
 | resources | object | `{}` | The resources to use for the krakend pod |
+| rolloutStrategy | object | `{"canary":{"maxSurge":"25%","maxUnavailable":0,"steps":[{"setWeight":10},{"pause":{"duration":"1m"}},{"setWeight":30},{"pause":{"duration":"1m"}},{"setWeight":50},{"pause":{"duration":"1m"}}]}}` | The Argo Rollouts strategy to use for the krakend service For more information, see https://argo-rollouts.readthedocs.io/en/stable/features/specification/ Note that the `deploymentType` must be set to `rollout` for this to take effect. |
 | securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"add":["NET_BIND_SERVICE"],"drop":["ALL"]},"readOnlyRootFilesystem":true,"runAsNonRoot":true,"runAsUser":1000}` | The securityContext to use for the krakend container |
 | service | object | `{"annotations":{},"port":80,"targetPort":8080,"type":"ClusterIP"}` | The service settings to use for the krakend service |
 | service.annotations | object | `{}` | The annotations to use for the service |

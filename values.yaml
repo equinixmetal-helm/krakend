@@ -11,6 +11,28 @@ image:
   # -- The image pull policy to use
   pullPolicy: IfNotPresent
 
+# -- (string) The deployment type to use for the krakend service
+# Valid values are `deployment` and `rollout`
+deploymentType: deployment
+
+# -- (object) The Argo Rollouts strategy to use for the krakend service
+# For more information, see https://argo-rollouts.readthedocs.io/en/stable/features/specification/
+# Note that the `deploymentType` must be set to `rollout` for this to take effect.
+rolloutStrategy:
+  canary:
+    maxSurge: "25%"
+    maxUnavailable: 0
+    steps:
+    - setWeight: 10
+    - pause:
+        duration: 1m
+    - setWeight: 30
+    - pause:
+        duration: 1m
+    - setWeight: 50
+    - pause:
+        duration: 1m
+
 krakend:
   # -- (array) The environment variables to use for the krakend container.
   # The default is just the ones needed to enable flexible configuration.
