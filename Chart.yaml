@@ -1,9 +1,10 @@
 apiVersion: v2
 name: krakend
-description: A Helm chart for Kubernetes
+icon: https://www.krakend.io/images/logo-krakend.svg
+description: |-
+  A Helm chart for deploying krakend.io in Kubernetes provided
+  and maintained by your friends at Equinix Metal
 
 type: application
-
 version: 0.1.6
-
 appVersion: "0.1.0"

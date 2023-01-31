@@ -1,6 +1,3 @@
-{{- if and (not (eq .Values.deploymentType "deployment")) (not (eq .Values.deploymentType "rollout")) }}
-{{- fail "Invalid deploymentType. Valid values are: deployment, rollout" }}
-{{- end }}
 {{- if eq .Values.deploymentType "deployment" }}
 apiVersion: apps/v1
 kind: Deployment
