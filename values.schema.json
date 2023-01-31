@@ -124,7 +124,7 @@
         "resources": {
             "type": "object"
         },
-        "rolloutStrategy": {
+        "strategy": {
             "type": "object"
         },
         "securityContext": {

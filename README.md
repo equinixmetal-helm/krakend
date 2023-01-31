@@ -62,7 +62,6 @@ please refer to [the official krakend documentation](https://www.krakend.io/docs
 | podSecurityContext | object | `{}` | The securityContext to use for the krakend pod |
 | replicaCount | int | `1` | Number of replicas to deploy |
 | resources | object | `{}` | The resources to use for the krakend pod |
-| rolloutStrategy | object | `{"canary":{"maxSurge":"25%","maxUnavailable":0,"steps":[{"setWeight":10},{"pause":{"duration":"1m"}},{"setWeight":30},{"pause":{"duration":"1m"}},{"setWeight":50},{"pause":{"duration":"1m"}}]}}` | The Argo Rollouts strategy to use for the krakend service For more information, see https://argo-rollouts.readthedocs.io/en/stable/features/specification/ Note that the `deploymentType` must be set to `rollout` for this to take effect. |
 | securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"add":["NET_BIND_SERVICE"],"drop":["ALL"]},"readOnlyRootFilesystem":true,"runAsNonRoot":true,"runAsUser":1000}` | The securityContext to use for the krakend container |
 | service | object | `{"annotations":{},"port":80,"targetPort":8080,"type":"ClusterIP"}` | The service settings to use for the krakend service |
 | service.annotations | object | `{}` | The annotations to use for the service |
@@ -72,6 +71,7 @@ please refer to [the official krakend documentation](https://www.krakend.io/docs
 | serviceAccount.annotations | object | `{}` | The annotations to use for the service account |
 | serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
 | serviceAccount.name | string | `""` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
+| strategy | object | `{}` | The strategy for the krakend deployment. This can either be a `deployment` or a `rollout` strategy. For more information on the Argo Rollout strategy, see https://argo-rollouts.readthedocs.io/en/stable/features/specification/ |
 | tolerations | object | `[]` | The tolerations to use for the krakend pod |
 
 ## Development
