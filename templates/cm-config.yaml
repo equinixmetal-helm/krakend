@@ -1,4 +1,4 @@
----
+{{- if not .Values.krakend.allInOneImage }}
 # This ConfigMap contains the initial configuration
 # file for the Krakend.io API Gateway.
 kind: ConfigMap
@@ -25,4 +25,5 @@ data:
         "endpoints": {{ include "endpoints.tmpl" }},
         "extra_config": `}}{{ .Values.krakend.extraConfig | toJson }}{{`
     }`}}
+{{- end }}
 {{- end }}

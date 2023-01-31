@@ -34,40 +34,17 @@ rolloutStrategy:
         duration: 1m
 
 krakend:
+  # -- (bool) Whether the given krakend image to be used contains everything needed
+  # for the krakend service to run. If set to false, the image will
+  # be used as a base image and the configuration will be loaded from
+  # the configmap. Note that the all-in-one image assumes the krakend
+  # configuration is located at /etc/krakend-src/config/krakend.tmpl
+  allInOneImage: false
   # -- (array) The environment variables to use for the krakend container.
   # The default is just the ones needed to enable flexible configuration.
-  env:
-    - name: FC_ENABLE
-      value: '1'
-    - name: FC_SETTINGS
-      value: '/etc/krakend-src/settings'
-    - name: FC_PARTIALS
-      value: '/etc/krakend-src/partials'
-    - name: FC_TEMPLATES
-      value: '/etc/krakend-src/templates'
+  env: []
   # -- (string, optional) If set, this key will contain the full configuration of the krakend service
   config: ""
-  # -- The default configuration has a partials file that
-  # will be used to load several aspects of the configuration.
-  # This is done through an initContainer that copies the partials
-  # to the /etc/krakend/partials folder.
-  partialsCopierImage:
-    # -- (string) The image registry to use for the partials copier
-    registry: docker.io
-    # -- (string) The image repository to use for the partials copier
-    repository: library/alpine
-    # -- (string) The image tag to use for the partials copier
-    tag: "3.17.1"
-    # -- (string) The image pull policy to use for the partials copier
-    pullPolicy: IfNotPresent
-    # -- (object) The resources to use for the partials copier
-    resources:
-      requests:
-        cpu: 100m
-        memory: 128Mi
-      limits:
-        cpu: 100m
-        memory: 128Mi
   # -- (Object) The default configuration has a partials files that
   # will be used to load several aspects of the configuration.
   # If you want to include expra partials, add or remove them here.
@@ -82,71 +59,7 @@ krakend:
         "max_rate": 0.5,
         "capacity": 1
       }
-  # -- The default configuration has a settings files that
-  # will be used to load several aspects of the configuration.
-  settings:
-    service.json: |-
-      {
-      	"environment": "PRODUCTION",
-      	"default_host": "http://localhost:8080",
-      	"timeout": "3s",
-      	"cache_ttl": "3s",
-      	"output_encoding": "json"
-      }
-  # -- While default configuration does not take into use
-  # templates; you may want to add your own templates here.
-  # Note that you'd need to set a custom configuration file
-  # to use them.
-  templates: {}
-  # -- (object) The service-level "extra_config" settings.
-  # This will directly be translated to JSON and is added only
-  # if you're not fully overriding the configuration via
-  # the `config` setting.
-  # For more information, see https://www.krakend.io/docs/enterprise/configuration/
-  extraConfig:
-    router:
-      "@comment": "The health endpoint checks do not show in the logs"
-      logger_skip_paths:
-        - "/__health"
-  # -- Given that endpoitns is where most of the verbosity
-  # of the configuration is, it's possible to load them
-  # from a configmap or from an image. This section allows
-  # you to configure the relevant settings.
-  endpoints:
-    # -- Use this flag to indicate that the endpoints should be
-    # loaded from the image instead of the configmap. This
-    # happens as an initContainer.
-    fromImage: false
-    # -- This is the image to use to load the endpoints from.
-    # Note that the registry, repository and tag must be set.
-    image:
-      # -- The image registry to use for the endpoints loader
-      registry:
-      # -- The image repository to use for the endpoints loader
-      # Note that the image must contain a file named endpoints.json
-      # at the root of the image.
-      repository:
-      # -- The image tag to use for the endpoints loader
-      tag:
-      # -- The image pull policy to use for the endpoints loader
-      pullPolicy: IfNotPresent
-      # -- The command to use to load the endpoints from the image.
-      command: [ "/bin/sh" ]
-      # -- The arguments to use to load the endpoints from the image.
-      args:
-        - "-c"
-        - "cp /endpoints.json /endpoints/endpoints.tmpl"
-      # -- (object) The resources to use for the endpoints loader
-      resources:
-        requests:
-          cpu: 100m
-          memory: 128Mi
-        limits:
-          cpu: 100m
-          memory: 128Mi
-    # -- If `fromImage` is set to false, the endpoints will be loaded from the
-    # partials configmap with this configuration
-    endpointsConfig: |-
+    endpoints.tmpl: |-
       [
         {
           "endpoint": "/test",
@@ -182,6 +95,32 @@ krakend:
           "output_encoding": "json"
         }
       ]
+  # -- The default configuration has a settings files that
+  # will be used to load several aspects of the configuration.
+  settings:
+    service.json: |-
+      {
+      	"environment": "PRODUCTION",
+      	"default_host": "http://localhost:8080",
+      	"timeout": "3s",
+      	"cache_ttl": "3s",
+      	"output_encoding": "json"
+      }
+  # -- While default configuration does not take into use
+  # templates; you may want to add your own templates here.
+  # Note that you'd need to set a custom configuration file
+  # to use them.
+  templates: {}
+  # -- (object) The service-level "extra_config" settings.
+  # This will directly be translated to JSON and is added only
+  # if you're not fully overriding the configuration via
+  # the `config` setting.
+  # For more information, see https://www.krakend.io/docs/enterprise/configuration/
+  extraConfig:
+    router:
+      "@comment": "The health endpoint checks do not show in the logs"
+      logger_skip_paths:
+        - "/__health"
 
 # -- (list) List of secrets containing the credentials to use for the image
 imagePullSecrets: []

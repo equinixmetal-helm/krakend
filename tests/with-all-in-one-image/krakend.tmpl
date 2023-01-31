@@ -1,0 +1,232 @@
+{
+    "$schema": "https://www.krakend.io/schema/v3.json",
+    "version": 3,
+    "name": "my-krakend-instance",
+    "port": {{ env "KRAKEND_PORT" }},
+    "timeout": "3s",
+    "cache_ttl": "3s",
+    "output_encoding": "json",
+    "plugin": {
+        "pattern": ".so",
+        "folder": "/usr/lib/krakend/plugins/"
+    },
+    "endpoints": [
+        {
+            "endpoint": "/directories/{id}",
+            "method": "POST",
+            "backend": [
+                {
+                    "method": "POST",
+                    "host": [],
+                    "url_pattern": "/__debug/directories/{id}",
+                    "encoding": "json",
+                    "deny": [
+                        "message"
+                    ]
+                }
+            ],
+            "output_encoding": "json"
+        },
+        {
+            "endpoint": "/directories/{id}",
+            "method": "DELETE",
+            "backend": [
+                {
+                    "method": "DELETE",
+                    "host": [],
+                    "url_pattern": "/__debug/directories/{id}",
+                    "encoding": "json",
+                    "deny": [
+                        "message"
+                    ]
+                }
+            ],
+            "extra_config": {
+                "proxy": {
+                    "static": {
+                        "data": {
+                            "directories": [
+                                "prosecutors"
+                            ],
+                            "version": "Sumner's"
+                        },
+                        "strategy": "always"
+                    }
+                }
+            },
+            "output_encoding": "json"
+        },
+        {
+            "endpoint": "/directories/{id}",
+            "method": "GET",
+            "backend": [
+                {
+                    "method": "GET",
+                    "host": [],
+                    "url_pattern": "/__debug/directories/{id}",
+                    "encoding": "json",
+                    "deny": [
+                        "message"
+                    ]
+                }
+            ],
+            "extra_config": {
+                "proxy": {
+                    "static": {
+                        "data": {
+                            "directory": {
+                                "createdAt": "Alkaid's",
+                                "deletedAt": "commemoration's",
+                                "id": "cottonseed's",
+                                "metadata": {},
+                                "name": "proposer",
+                                "parent": "vial's",
+                                "updatedAt": "quarterdeck"
+                            },
+                            "version": "flavorless"
+                        },
+                        "strategy": "always"
+                    }
+                }
+            },
+            "output_encoding": "json"
+        },
+        {
+            "endpoint": "/directories/{id}/children",
+            "method": "GET",
+            "backend": [
+                {
+                    "method": "GET",
+                    "host": [],
+                    "url_pattern": "/__debug/directories/{id}/children",
+                    "encoding": "json",
+                    "deny": [
+                        "message"
+                    ]
+                }
+            ],
+            "extra_config": {
+                "proxy": {
+                    "static": {
+                        "data": {
+                            "directories": [
+                                "spiciest"
+                            ],
+                            "version": "Assisi's"
+                        },
+                        "strategy": "always"
+                    }
+                }
+            },
+            "output_encoding": "json"
+        },
+        {
+            "endpoint": "/directories/{id}/parents",
+            "method": "GET",
+            "backend": [
+                {
+                    "method": "GET",
+                    "host": [],
+                    "url_pattern": "/__debug/directories/{id}/parents",
+                    "encoding": "json",
+                    "deny": [
+                        "message"
+                    ]
+                }
+            ],
+            "extra_config": {
+                "proxy": {
+                    "static": {
+                        "data": {
+                            "directories": [
+                                "Kiwanis's"
+                            ],
+                            "version": "sidetrack"
+                        },
+                        "strategy": "always"
+                    }
+                }
+            },
+            "output_encoding": "json"
+        },
+        {
+            "endpoint": "/directories/{id}/parents/{until}",
+            "method": "GET",
+            "backend": [
+                {
+                    "method": "GET",
+                    "host": [],
+                    "url_pattern": "/__debug/directories/{id}/parents/{until}",
+                    "encoding": "json",
+                    "deny": [
+                        "message"
+                    ]
+                }
+            ],
+            "extra_config": {
+                "proxy": {
+                    "static": {
+                        "data": {
+                            "directories": [
+                                "spinning"
+                            ],
+                            "version": "Buddhist's"
+                        },
+                        "strategy": "always"
+                    }
+                }
+            },
+            "output_encoding": "json"
+        },
+        {
+            "endpoint": "/roots",
+            "method": "GET",
+            "backend": [
+                {
+                    "method": "GET",
+                    "host": [],
+                    "url_pattern": "/__debug/roots",
+                    "encoding": "json",
+                    "deny": [
+                        "message"
+                    ]
+                }
+            ],
+            "extra_config": {
+                "proxy": {
+                    "static": {
+                        "data": {
+                            "collection": [
+                                {
+                                    "directories": [
+                                        "Graceland"
+                                    ],
+                                    "version": "deficient"
+                                }
+                            ]
+                        },
+                        "strategy": "always"
+                    }
+                }
+            },
+            "output_encoding": "json"
+        },
+        {
+            "endpoint": "/roots",
+            "method": "POST",
+            "backend": [
+                {
+                    "method": "POST",
+                    "host": [],
+                    "url_pattern": "/__debug/roots",
+                    "encoding": "json",
+                    "deny": [
+                        "message"
+                    ]
+                }
+            ],
+            "output_encoding": "json"
+        }
+    ],
+    "extra_config": {}
+}

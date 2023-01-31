@@ -68,7 +68,6 @@ Get krakend files directory
 {{- printf "/etc/krakend-src" -}}
 {{- end }}
 
-
 {{/*
 Get krakend config file directory
 */}}
@@ -80,7 +79,7 @@ Get krakend config file directory
 Get krakend config file name
 */}}
 {{- define "krakend.configFileName" -}}
-{{- printf "%s.tmpl" (include "krakend.fullname" .) -}}
+{{- printf "krakend.tmpl" -}}
 {{- end }}
 
 {{/*
