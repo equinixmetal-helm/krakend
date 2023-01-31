@@ -15,23 +15,10 @@ image:
 # Valid values are `deployment` and `rollout`
 deploymentType: deployment
 
-# -- (object) The Argo Rollouts strategy to use for the krakend service
-# For more information, see https://argo-rollouts.readthedocs.io/en/stable/features/specification/
-# Note that the `deploymentType` must be set to `rollout` for this to take effect.
-rolloutStrategy:
-  canary:
-    maxSurge: "25%"
-    maxUnavailable: 0
-    steps:
-    - setWeight: 10
-    - pause:
-        duration: 1m
-    - setWeight: 30
-    - pause:
-        duration: 1m
-    - setWeight: 50
-    - pause:
-        duration: 1m
+# -- (object) The strategy for the krakend deployment. This can either be
+# a `deployment` or a `rollout` strategy.
+# For more information on the Argo Rollout strategy, see https://argo-rollouts.readthedocs.io/en/stable/features/specification/
+strategy: {}
 
 krakend:
   # -- (bool) Whether the given krakend image to be used contains everything needed
