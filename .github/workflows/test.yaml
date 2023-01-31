@@ -92,3 +92,32 @@ jobs:
         run: |
           curl -s http://localhost:8081/directories/1 | jq -e '.version == "flavorless"'
         if: matrix.config.testdir == 'with-all-in-one-image'
+
+  helm-lint:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - name: 'Scenario: with default options'
+            testdir: 'default-data'
+          - name: 'Scenario: with all-in-one image'
+            testdir: 'with-all-in-one-image'
+          - name: 'Scenario: with extra mounts'
+            testdir: 'with-extra-mounts'
+          - name: 'Scenario: with templated annotations'
+            testdir: 'with-templated-annotations'
+    env:
+      KRAKEND_NS: krakend-test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: 'Install helm'
+        uses: azure/setup-helm@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: lint
+        run: |
+          helm lint --values tests/${{ matrix.config.testdir }}/values.yaml .

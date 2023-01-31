@@ -8,7 +8,8 @@ This is a helm chart that deploys a [Krakend](https://www.krakend.io/) instance.
 
 ## Description
 
-A Helm chart for Kubernetes
+A Helm chart for deploying krakend.io in Kubernetes provided
+and maintained by your friends at Equinix Metal
 
 ## Usage
 
