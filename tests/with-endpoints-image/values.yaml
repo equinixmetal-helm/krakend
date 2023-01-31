@@ -1,7 +1,0 @@
-krakend:
-  endpoints:
-    fromImage: true
-    image:
-      repository: krakend-test
-      tag: latest
-      pullPolicy: Never

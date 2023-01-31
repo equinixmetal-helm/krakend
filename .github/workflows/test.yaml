@@ -16,8 +16,8 @@ jobs:
         config:
           - name: 'Scenario: with default options'
             testdir: 'default-data'
-          - name: 'Scenario: with endpoints image'
-            testdir: 'with-endpoints-image'
+          - name: 'Scenario: with all-in-one image'
+            testdir: 'with-all-in-one-image'
           - name: 'Scenario: with extra mounts'
             testdir: 'with-extra-mounts'
           - name: 'Scenario: with templated annotations'
@@ -50,12 +50,12 @@ jobs:
           kubectl create namespace $KRAKEND_NS
 
       - name: 'Build image if needed'
-        if: matrix.config.testdir == 'with-endpoints-image'
+        if: matrix.config.testdir == 'with-all-in-one-image'
         run: |
           docker build -t krakend-test:latest -f tests/${{ matrix.config.testdir }}/Dockerfile tests/${{ matrix.config.testdir }}
 
       - name: 'Load image if needed'
-        if: matrix.config.testdir == 'with-endpoints-image'
+        if: matrix.config.testdir == 'with-all-in-one-image'
         run: |
           kind load docker-image --name chart-testing krakend-test:latest
 
@@ -86,9 +86,9 @@ jobs:
       - name: Test that response is correct
         run: |
           curl -s http://localhost:8081/test | jq -e '.version == "deficient"'
-        if: matrix.config.testdir != 'with-endpoints-image'
+        if: matrix.config.testdir != 'with-all-in-one-image'
 
       - name: Test that response is correct
         run: |
           curl -s http://localhost:8081/directories/1 | jq -e '.version == "flavorless"'
-        if: matrix.config.testdir == 'with-endpoints-image'
+        if: matrix.config.testdir == 'with-all-in-one-image'

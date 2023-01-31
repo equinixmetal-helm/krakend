@@ -1,0 +1,6 @@
+image:
+  repository: krakend-test
+  tag: latest
+  pullPolicy: Never
+krakend:
+  allInOneImage: true

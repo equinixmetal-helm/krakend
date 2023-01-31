@@ -12,6 +12,20 @@ This is a helm chart that deploys a [Krakend](https://www.krakend.io/) instance.
 
 ## Usage
 
+There are two main modes of operation:
+
+* configMap-based: the configuration is stored in a configMaps and mounted in the
+  container.
+
+* all-in-one image: the configuration is stored in the container image itself.
+
+Note that the all-in-one image method assumes that the configuration is stored
+in the `/etc/krakend-src/config` path. This is done to allow for mounting
+the license as describe in the section below.
+
+Both modes of operation enable the flexible configuration feature. For the all-in-one
+image, this is done so that the configuration can take environment variables into use.
+
 Note that for a further description on how to use partials, settings and templates,
 please refer to [the official krakend documentation](https://www.krakend.io/docs/configuration/flexible-config/).
 
