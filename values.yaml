@@ -191,3 +191,15 @@ extraVolumeMounts: []
 
 # -- (array) extraVolumes allows you to mount extra volumes to the krakend pod
 extraVolumes: []
+
+# -- (object) The livenessProbe to use for the krakend pod
+livenessProbe:
+  httpGet:
+    path: /__health
+    port: http
+
+# -- (object) The readinessProbe to use for the krakend pod
+readinessProbe:
+  httpGet:
+    path: /__health
+    port: http

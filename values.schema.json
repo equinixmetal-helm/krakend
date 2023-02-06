@@ -106,6 +106,9 @@
                 }
             }
         },
+        "livenessProbe": {
+            "type": "object"
+        },
         "nameOverride": {
             "type": "string"
         },
@@ -116,6 +119,9 @@
             "type": "object"
         },
         "podSecurityContext": {
+            "type": "object"
+        },
+        "readinessProbe": {
             "type": "object"
         },
         "replicaCount": {
