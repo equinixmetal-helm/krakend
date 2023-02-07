@@ -377,6 +377,10 @@
         "service": {
             "type": "object",
             "properties": {
+                "externalTrafficPolicy": {
+                    "type": "string",
+                    "enum": ["Cluster", "Local", ""]
+                },
                 "annotations": {
                     "type": "object"
                 },

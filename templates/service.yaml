@@ -11,6 +11,9 @@ metadata:
     {{- end }}
   {{- end }}
 spec:
+  {{- if .Values.service.externalTrafficPolicy }}
+  externalTrafficPolicy: {{ .Values.service.externalTrafficPolicy }}
+  {{- end }}
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
