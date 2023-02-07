@@ -144,6 +144,8 @@ securityContext:
 
 # -- (object) The service settings to use for the krakend service
 service:
+  # -- (string) The External Traffic Policy of the service
+  externalTrafficPolicy: ""
   # -- (string) The type of service to use
   type: ClusterIP
   # -- (int) The port to use for the service
