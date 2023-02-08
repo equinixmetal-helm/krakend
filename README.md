@@ -74,6 +74,13 @@ please refer to [the official krakend documentation](https://www.krakend.io/docs
 | serviceAccount.annotations | object | `{}` | The annotations to use for the service account |
 | serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
 | serviceAccount.name | string | `""` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
+| serviceMonitor | object | `{"annotations":{},"enabled":false,"interval":"10s","labels":{},"scrapeTimeout":"10s","targetPort":9091}` | The serviceMonitor configures a ServiceMonitor for your application |
+| serviceMonitor.annotations | object | `{}` | Annotations to add to ServiceMonitor |
+| serviceMonitor.enabled | bool | `false` | Set to true to create a default ServiceMonitor for your application |
+| serviceMonitor.interval | string | `"10s"` | Interval for scrape metrics. |
+| serviceMonitor.labels | object | `{}` | Labels to add to ServiceMonitor |
+| serviceMonitor.scrapeTimeout | string | `"10s"` | time out interval when scraping metrics |
+| serviceMonitor.targetPort | int | `9091` | prometheus metrics port exposed by krakend |
 | strategy | object | `{}` | The strategy for the krakend deployment. This can either be a `deployment` or a `rollout` strategy. For more information on the Argo Rollout strategy, see https://argo-rollouts.readthedocs.io/en/stable/features/specification/ |
 | tolerations | object | `[]` | The tolerations to use for the krakend pod |
 

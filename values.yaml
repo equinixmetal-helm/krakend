@@ -205,3 +205,18 @@ readinessProbe:
   httpGet:
     path: /__health
     port: http
+
+# -- (object) The serviceMonitor configures a ServiceMonitor for your application
+serviceMonitor:
+  # -- (bool) Set to true to create a default ServiceMonitor for your application
+  enabled: false
+  # -- Labels to add to ServiceMonitor
+  labels: {}
+  # -- Annotations to add to ServiceMonitor
+  annotations: {}
+  # -- Interval for scrape metrics.
+  interval: 10s
+  # -- time out interval when scraping metrics
+  scrapeTimeout: 10s
+  # -- prometheus metrics port exposed by krakend
+  targetPort: 9091
