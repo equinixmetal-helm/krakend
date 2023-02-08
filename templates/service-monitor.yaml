@@ -12,8 +12,14 @@ metadata:
     {{- end }}
   {{- end }}
 spec:
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}
   selector:
     matchLabels: {{- include "krakend.selectorLabels" . | nindent 6 }}
   endpoints:
-    - port: metrics
+    - interval: {{ .Values.serviceMonitor.interval }}
+      scrapeTimeout: {{ .Values.serviceMonitor.scrapeTimeout }}
+      path: /metrics
+      targetPort: {{ .Values.serviceMonitor.targetPort }}
 {{- end }}
