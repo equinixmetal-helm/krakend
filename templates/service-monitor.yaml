@@ -15,5 +15,5 @@ spec:
   selector:
     matchLabels: {{- include "krakend.selectorLabels" . | nindent 6 }}
   endpoints:
-    - port: {{ .Values.serviceMonitor.targetPort }}
+    - port: metrics
 {{- end }}
