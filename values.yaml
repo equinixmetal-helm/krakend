@@ -210,8 +210,6 @@ readinessProbe:
 serviceMonitor:
   # -- (bool) Set to true to create a default ServiceMonitor for your application
   enabled: false
-  # -- Labels to add to ServiceMonitor
-  labels: {}
   # -- Annotations to add to ServiceMonitor
   annotations: {}
   # -- Interval for scrape metrics.
