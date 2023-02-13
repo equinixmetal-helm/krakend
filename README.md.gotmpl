@@ -46,6 +46,26 @@ Ensure that the documentation is up to date before pushing a pull request:
 helm-docs
 ```
 
+### Releasing
+
+There is a useful Makefile target that's useful to cut a release. So, simply do:
+
+```bash
+TAG=$RELEASE_VERSION make release
+```
+
+And the release will happen.
+
+Note that this project follows the [Semantic Versioning scheme](https://semver.org/), so
+make sure to follow it when cutting releases.
+
+The `TAG` Makefile variable takes a release version without the `v` prefix. For example,
+if you want to cut a release with version `v1.2.3`, you'd do:
+
+```bash
+TAG=1.2.3 make release
+```
+
 # Using Krakend.io Enterprise
 
 Krakend.io Enterprise is a commercial product that extends the capabilities
