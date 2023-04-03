@@ -199,12 +199,14 @@ livenessProbe:
   httpGet:
     path: /__health
     port: http
+    scheme: HTTPS
 
 # -- (object) The readinessProbe to use for the krakend pod
 readinessProbe:
   httpGet:
     path: /__health
     port: http
+    scheme: HTTPS
 
 # -- (object) The serviceMonitor configures a ServiceMonitor for your application
 serviceMonitor:
@@ -218,3 +220,6 @@ serviceMonitor:
   scrapeTimeout: 10s
   # -- prometheus metrics port exposed by krakend
   targetPort: 9091
+
+openshift:
+  trustSignerCA: false

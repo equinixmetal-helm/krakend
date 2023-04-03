@@ -411,6 +411,14 @@
         },
         "tolerations": {
             "type": "array"
+        },
+        "openshift": {
+          "type": "object",
+          "properties": {
+            "trustSignerCA": {
+              "type": "boolean"
+            }
+          }
         }
     }
 }

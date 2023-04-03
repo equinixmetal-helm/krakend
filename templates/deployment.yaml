@@ -98,6 +98,12 @@ spec:
               mountPath: {{ include "krakend.settingsDir" . }}
             - name: templates
               mountPath: {{ include "krakend.templatesDir" . }}
+            {{- if .Values.openshift.trustSignerCA }}
+            - name: service-cert-ca
+              mountPath: {{ include "krakend.tlsCADir" . }}
+            - name: service-cert
+              mountPath: {{ include "krakend.tlsCertDir" . }}
+            {{- end }}
             {{- end }}
             {{- with .Values.extraVolumeMounts }}
             {{- toYaml . | nindent 12 }}
@@ -132,6 +138,14 @@ spec:
         - name: templates
           configMap:
             name: {{ include "krakend.fullname" . }}-templates
+        {{- if .Values.openshift.trustSignerCA }}
+        - name: service-cert-ca
+          configMap:
+            name: {{ include "krakend.fullname" . }}-additional-trust
+        - name: service-cert
+          secret:
+            secretName: {{ include "krakend.fullname" . }}-service-cert
+        {{- end }}
         {{- end }}
         {{- with .Values.extraVolumes }}
         {{- toYaml . | nindent 8 }}
