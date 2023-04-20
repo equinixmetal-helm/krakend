@@ -23,7 +23,7 @@ spec:
   template:
     metadata:
       annotations:
-        {{- if .Values.krakend.allInOneImage }}
+        {{- if not .Values.krakend.allInOneImage }}
         checksum/cm-config: {{ include (print $.Template.BasePath "/cm-config.yaml") . | sha256sum }}
         checksum/cm-partials: {{ include (print $.Template.BasePath "/cm-partials.yaml") . | sha256sum }}
         checksum/cm-settings: {{ include (print $.Template.BasePath "/cm-settings.yaml") . | sha256sum }}
