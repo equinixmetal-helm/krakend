@@ -1,6 +1,6 @@
 # Krakend
 
-![Version: 0.1.16](https://img.shields.io/badge/Version-0.1.16-informational?style=for-the-badge)
+![Version: 0.1.17](https://img.shields.io/badge/Version-0.1.17-informational?style=for-the-badge)
 ![Type: application](https://img.shields.io/badge/Type-application-informational?style=for-the-badge)
 ![AppVersion: 0.1.0](https://img.shields.io/badge/AppVersion-0.1.0-informational?style=for-the-badge)
 
