@@ -11,6 +11,26 @@ This is a helm chart that deploys a [Krakend](https://www.krakend.io/) instance.
 A Helm chart for deploying krakend.io in Kubernetes provided
 and maintained by your friends at Equinix Metal
 
+## Installation
+
+* Add the Equinix Metal helm repository
+```bash
+helm repo add equinixmetal https://helm.equinixmetal.com
+```
+
+* Install the helm chart using default values
+```bash
+helm install krakend equinixmetal/krakend
+```
+
+> If you are using your own chart, reference the following to your chart's dependencies:
+> ```yaml
+> dependencies:
+>   - name: krakend
+>     version: v0.1.16
+>     repository: "https://helm.equinixmetal.com"
+> ```
+
 ## Usage
 
 There are two main modes of operation:
