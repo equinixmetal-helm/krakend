@@ -4,6 +4,7 @@ release: ## Issues a release
 	@echo "Releasing v$(TAG)"
 	git checkout -b "release-$(TAG)"
 	sed -i "s%version: .*%version: $(TAG)%" Chart.yaml
+	sed -i "s%appVersion: .*%appVersion: $(shell yq '.image.tag' values.yaml)%" Chart.yaml
 	helm-docs
 	git add README.md
 	git add Chart.yaml
