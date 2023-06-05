@@ -13,6 +13,8 @@ jobs:
       HELM_DOCS_VERSION: 1.11.0
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
       - name: install helm-docs
         run: |
           cd /tmp
@@ -24,7 +26,17 @@ jobs:
         run: |
           helm-docs -t README.md.gotmpl -o README.md
 
-      - name: Fail if there are changes
+      - name: Check if changes were made
+        id: git-check
         run: |
           git diff --exit-code
-        if: ${{ github.event_name == 'pull_request' }}
+        continue-on-error: true
+
+      - name: Push changes if needed
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "github-actions@github.com"
+          git add README.md
+          git commit -m "Update README.md"
+          git push
+        if: ${{ github.event_name == 'pull_request' && steps.git-check.outcome != 'success' }}
