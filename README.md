@@ -62,7 +62,7 @@ please refer to [the official krakend documentation](https://www.krakend.io/docs
 | image.pullPolicy | string | `"IfNotPresent"` | The image pull policy to use |
 | image.registry | string | `"docker.io"` | The image registry to use |
 | image.repository | string | `"devopsfaith/krakend"` | The image repository to use |
-| image.tag | string | `"2.3.2"` | The image tag to use |
+| image.tag | string | `"2.3.3"` | The image tag to use |
 | imagePullSecrets | list | `[]` | List of secrets containing the credentials to use for the image |
 | ingress | object | `{"annotations":{},"className":"","enabled":false,"hosts":[{"host":"chart-example.local","paths":[{"path":"/","pathType":"ImplementationSpecific"}]}],"tls":[]}` | The ingress settings to use for the krakend ingress |
 | ingress.annotations | object | `{}` | The annotations to use for the ingress |
