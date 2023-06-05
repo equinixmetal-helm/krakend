@@ -7,7 +7,7 @@ image:
   # -- The image repository to use
   repository: devopsfaith/krakend
   # -- The image tag to use
-  tag: "2.3.2"
+  tag: "2.3.3"
   # -- The image pull policy to use
   pullPolicy: IfNotPresent
 
