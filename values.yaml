@@ -32,6 +32,10 @@ krakend:
   env: []
   # -- (string, optional) If set, this key will contain the full configuration of the krakend service
   config: ""
+  # -- (string, optional) an external file relative path, will contain the full
+  # configuration of the kraken service. useful if config file is generated
+  # with flexible config https://www.krakend.io/docs/configuration/flexible-config/
+  configFileSource: ""
   # -- (Object) The default configuration has a partials files that
   # will be used to load several aspects of the configuration.
   # If you want to include expra partials, add or remove them here.
