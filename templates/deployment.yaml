@@ -141,7 +141,7 @@ spec:
         {{- if .Values.openshift.trustSignerCA }}
         - name: service-cert-ca
           configMap:
-            name: {{ include "krakend.fullname" . }}-additional-trust
+            name: {{ include "krakend.fullname" . }}-additional-trust-2
         - name: service-cert
           secret:
             secretName: {{ include "krakend.fullname" . }}-service-cert
