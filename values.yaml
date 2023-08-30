@@ -158,6 +158,14 @@ service:
   targetPort: 8080
   # -- (object) The annotations to use for the service
   annotations: {}
+  # -- (object) The service settings to reach the metrics port
+  metrics:
+    # -- (bool) Specifies whether the metrics port is reachable
+    enabled: false
+    # -- (int) The port to use for the metrics service
+    port: 9100
+    # -- (int) The target port to use for the metrics service
+    targetPort: 9100
 
 # -- (object) The ingress settings to use for the krakend ingress
 ingress:
