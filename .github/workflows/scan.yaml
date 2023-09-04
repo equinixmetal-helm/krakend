@@ -24,7 +24,7 @@ jobs:
             trivy-config: tests/custom-data/trivy-config.yaml
     steps:
       - name: Checkout 
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       
       - name: 'Run security scanner: ${{ matrix.config.name }}'
         uses: aquasecurity/trivy-action@master
