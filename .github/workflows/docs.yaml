@@ -12,7 +12,7 @@ jobs:
     env:
       HELM_DOCS_VERSION: 1.11.0
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: install helm-docs
         run: |
           cd /tmp
