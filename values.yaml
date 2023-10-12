@@ -200,6 +200,9 @@ tolerations: []
 # -- (object) The affinity to use for the krakend pod
 affinity: {}
 
+# -- (array) The topologySpreadConstraints to use for the krakend pod
+topologySpreadConstraints: []
+
 # -- (array) extraVolumeMounts allows you to mount extra volumes to the krakend pod
 extraVolumeMounts: []
 
