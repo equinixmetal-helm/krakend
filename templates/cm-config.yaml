@@ -5,10 +5,10 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: {{ include "krakend.fullname" . }}-config
-{{- if .Values.krakend.configFileSource}}
+{{- if .Values.krakend.configFileSource }}
 binaryData:
   {{ include "krakend.configFileName" . }}: |-
-{{ .Files.Get (printf "%s" .Values.krakend.configFileSource) | b64enc | indent 4}}
+{{ .Files.Get .Values.krakend.configFileSource | b64enc | indent 4}}
 {{- else }}
 
 data:

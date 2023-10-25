@@ -3,8 +3,17 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: {{ include "krakend.fullname" . }}-templates
+{{- if .Values.krakend.templatesDirSource }}
+binaryData:
+{{- range $path, $_ := .Files.Glob .Values.krakend.templatesDirSource }}
+  {{ regexReplaceAll "(.*)/" $path "" }}: |-
+{{ $.Files.Get $path | b64enc | indent 4 }}
+{{- end }}
+{{- else }}
+
 data:
   {{- range $key, $value := .Values.krakend.templates }}
   {{ $key }}: {{ $value | quote }}
   {{- end }}
+{{- end }}
 {{- end }}
