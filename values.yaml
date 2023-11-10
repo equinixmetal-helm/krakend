@@ -227,6 +227,17 @@ readinessProbe:
     path: /__health
     port: http
 
+# -- (object) podDisruptionBudget allows you to define minumum and maximum available pods
+podDisruptionBudget:
+  # -- (bool) Set to true to create a default ServiceMonitor for your application
+  enabled: false
+  # -- minimum available pods
+  minAvailable: 1
+  # -- maximum available pods
+  maxUnavailable: ""
+  # -- UnhealthyPodEvictionPolicy defines the criteria for when unhealthy pods should be considered for eviction
+  unhealthyPodEvictionPolicy: ""
+
 # -- (object) The serviceMonitor configures a ServiceMonitor for your application
 serviceMonitor:
   # -- (bool) Set to true to create a default ServiceMonitor for your application
