@@ -84,6 +84,11 @@ please refer to [the official krakend documentation](https://www.krakend.io/docs
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` | The nodeSelector to use for the krakend pod |
 | podAnnotations | object | `{}` | The annotations to use for the krakend pod |
+| podDisruptionBudget | object | `{"enabled":false,"maxUnavailable":"","minAvailable":1,"unhealthyPodEvictionPolicy":""}` | podDisruptionBudget allows you to define minumum and maximum available pods |
+| podDisruptionBudget.enabled | bool | `false` | Set to true to create a default ServiceMonitor for your application |
+| podDisruptionBudget.maxUnavailable | string | `""` | maximum available pods |
+| podDisruptionBudget.minAvailable | int | `1` | minimum available pods |
+| podDisruptionBudget.unhealthyPodEvictionPolicy | string | `""` | UnhealthyPodEvictionPolicy defines the criteria for when unhealthy pods should be considered for eviction |
 | podSecurityContext | object | `{}` | The securityContext to use for the krakend pod |
 | readinessProbe | object | `{"httpGet":{"path":"/__health","port":"http"}}` | The readinessProbe to use for the krakend pod |
 | replicaCount | int | `1` | Number of replicas to deploy |
