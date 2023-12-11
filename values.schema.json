@@ -368,6 +368,10 @@
         "resources": {
             "type": "object"
         },
+        "lifecycle": {
+            "description" : "Add a lifecycle hooks (PostStart, PreStop) https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/",
+            "type": "object"
+        },
         "strategy": {
             "type": "object"
         },
