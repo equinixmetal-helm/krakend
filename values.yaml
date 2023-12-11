@@ -194,6 +194,9 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
+# -- (object) Krakend container lifecycle hooks (PostStart, PreStop)
+lifecycle: {}
+
 # -- (object) The resources to use for the krakend pod
 resources: {}
 
