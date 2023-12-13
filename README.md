@@ -1,6 +1,6 @@
 # Krakend
 
-![Version: 0.1.25](https://img.shields.io/badge/Version-0.1.25-informational?style=for-the-badge)
+![Version: 0.1.26](https://img.shields.io/badge/Version-0.1.26-informational?style=for-the-badge)
 ![Type: application](https://img.shields.io/badge/Type-application-informational?style=for-the-badge)
 ![AppVersion: 2.5.0](https://img.shields.io/badge/AppVersion-2.5.0-informational?style=for-the-badge)
 
@@ -80,6 +80,7 @@ please refer to [the official krakend documentation](https://www.krakend.io/docs
 | krakend.settingsDirSource | string, optional | `""` | an external file relative path, will contain the setting configuration files of the krakend service. |
 | krakend.templates | object | `{}` | While default configuration does not take into use templates; you may want to add your own templates here. Note that you'd need to set a custom configuration file to use them. |
 | krakend.templatesDirSource | string, optional | `""` | an external file relative path, will contain the template configuration files of the krakend service. |
+| lifecycle | object | `{}` | Krakend container lifecycle hooks (PostStart, PreStop) |
 | livenessProbe | object | `{"httpGet":{"path":"/__health","port":"http"}}` | The livenessProbe to use for the krakend pod |
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` | The nodeSelector to use for the krakend pod |
