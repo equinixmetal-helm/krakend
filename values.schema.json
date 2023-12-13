@@ -89,6 +89,10 @@
                 "config": {
                     "type": "string"
                 },
+                "configFileSource": {
+                    "description" : "an external file's relative path contains the full krakend configuration",
+                    "type": "string"
+                },
                 "env": {
                     "type": "array"
                 },
