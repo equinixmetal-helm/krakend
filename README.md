@@ -1,8 +1,8 @@
 # Krakend
 
-![Version: 0.1.26](https://img.shields.io/badge/Version-0.1.26-informational?style=for-the-badge)
+![Version: 0.1.27](https://img.shields.io/badge/Version-0.1.27-informational?style=for-the-badge)
 ![Type: application](https://img.shields.io/badge/Type-application-informational?style=for-the-badge)
-![AppVersion: 2.5.0](https://img.shields.io/badge/AppVersion-2.5.0-informational?style=for-the-badge)
+![AppVersion: 2.5.1](https://img.shields.io/badge/AppVersion-2.5.1-informational?style=for-the-badge)
 
 This is a helm chart that deploys a [Krakend](https://www.krakend.io/) instance.
 
