@@ -235,6 +235,32 @@
         "nameOverride": {
             "type": "string"
         },
+        "networkPolicies": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                },
+                "policies": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "namespace": {
+                                "type": "string"
+                            },
+                            "type": {
+                                "type": "string"
+                            }
+                        },
+                        "required": ["name", "namespace", "type"]
+                    }
+                }
+            }
+        },
         "nodeSelector": {
             "type": "object"
         },
