@@ -266,8 +266,8 @@ networkPolicies:
       namespace: "namespace1"
       # -- Type of the network policy (ingress or egress)
       type: "ingress"
-    - name: "allow-namespace2"
+    # - name: "allow-namespace2"
       # -- Name of the namespace allowed to reach (or be reached by) your application
-      namespace: "namespace2"
+      # namespace: "namespace2"
       # -- Type of the network policy (ingress or egress)
-      type: "egress"
+      # type: "egress"
