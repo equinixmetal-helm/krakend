@@ -136,6 +136,9 @@ serviceAccount:
 # -- (object) The annotations to use for the krakend pod
 podAnnotations: {}
 
+# -- (object) Labels to use for the krakend pod
+podLabels: {}
+
 # -- (object) The securityContext to use for the krakend pod
 podSecurityContext: {}
   # fsGroup: 2000
