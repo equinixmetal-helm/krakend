@@ -83,14 +83,12 @@ please refer to [the official krakend documentation](https://www.krakend.io/docs
 | lifecycle | object | `{}` | Krakend container lifecycle hooks (PostStart, PreStop) |
 | livenessProbe | object | `{"httpGet":{"path":"/__health","port":"http"}}` | The livenessProbe to use for the krakend pod |
 | nameOverride | string | `""` |  |
-| networkPolicies | object | `{"enabled":false,"policies":[{"name":"allow-namespace1","namespace":"namespace1","type":"ingress"},{"name":"allow-namespace2","namespace":"namespace2","type":"egress"}]}` | The networkPolicies configures ingress NetworkPolicies for your application |
+| networkPolicies | object | `{"enabled":false,"policies":[{"name":"allow-namespace1","namespace":"namespace1","type":"ingress"}]}` | The networkPolicies configures ingress NetworkPolicies for your application |
 | networkPolicies.enabled | bool | `false` | Set to true to create NetworkPolicies for your application |
-| networkPolicies.policies | list | `[{"name":"allow-namespace1","namespace":"namespace1","type":"ingress"},{"name":"allow-namespace2","namespace":"namespace2","type":"egress"}]` | List of NetworkPolicy objects |
+| networkPolicies.policies | list | `[{"name":"allow-namespace1","namespace":"namespace1","type":"ingress"}]` | List of NetworkPolicy objects |
 | networkPolicies.policies[0] | object | `{"name":"allow-namespace1","namespace":"namespace1","type":"ingress"}` | Name of the NetworkPolicy |
 | networkPolicies.policies[0].namespace | string | `"namespace1"` | Name of the namespace allowed to reach (or be reached by) your application |
 | networkPolicies.policies[0].type | string | `"ingress"` | Type of the network policy (ingress or egress) |
-| networkPolicies.policies[1].namespace | string | `"namespace2"` | Name of the namespace allowed to reach (or be reached by) your application |
-| networkPolicies.policies[1].type | string | `"egress"` | Type of the network policy (ingress or egress) |
 | nodeSelector | object | `{}` | The nodeSelector to use for the krakend pod |
 | podAnnotations | object | `{}` | The annotations to use for the krakend pod |
 | podDisruptionBudget | object | `{"enabled":false,"maxUnavailable":"","minAvailable":1,"unhealthyPodEvictionPolicy":""}` | podDisruptionBudget allows you to define minumum and maximum available pods |
