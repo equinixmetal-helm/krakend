@@ -19,6 +19,9 @@ deploymentType: deployment
 # a `deployment` or a `rollout` strategy.
 # For more information on the Argo Rollout strategy, see https://argo-rollouts.readthedocs.io/en/stable/features/specification/
 strategy: {}
+#  rollingUpdate:
+#    maxSurge: 25%
+#    maxUnavailable: 10%
 
 krakend:
   # -- (bool) Whether the given krakend image to be used contains everything needed
