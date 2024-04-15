@@ -1,4 +1,4 @@
-{{- if and (eq .Values.deploymentType "deployment") .Values.autoscaling.enabled }}
+{{- if and (eq .Values.deploymentType "deployment") .Values.autoscaling.enabled (not .Values.keda.enabled) }}
 apiVersion: {{ ternary "autoscaling/v2" "autoscaling/v2beta2" (.Capabilities.APIVersions.Has "autoscaling/v2") }}
 kind: HorizontalPodAutoscaler
 metadata:
