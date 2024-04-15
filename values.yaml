@@ -274,3 +274,25 @@ networkPolicies:
       # namespace: "namespace2"
       # -- Type of the network policy (ingress or egress)
       # type: "egress"
+
+# -- (object) Configures HorizontalPodAutoscaler for your Deployment
+autoscaling:
+  enabled: false
+  annotations: {}
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 50
+  targetMemoryUtilizationPercentage: 50
+  behavior: {}
+  # scaleDown:
+  #   stabilizationWindowSeconds: 300
+  #   policies:
+  #   - type: Pods
+  #     value: 1
+  #     periodSeconds: 180
+  # scaleUp:
+  #   stabilizationWindowSeconds: 300
+  #   policies:
+  #   - type: Pods
+  #     value: 2
+  #     periodSeconds: 60
