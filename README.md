@@ -70,6 +70,7 @@ please refer to [the official krakend documentation](https://www.krakend.io/docs
 | ingress.className | string | `""` | The class to use for the ingress |
 | ingress.enabled | bool | `false` | Specifies whether an ingress should be created |
 | ingress.hosts | list | `[{"host":"chart-example.local","paths":[{"path":"/","pathType":"ImplementationSpecific"}]}]` | The list of hosts to use for the ingress |
+| keda | object | `{"behavior":{},"cooldownPeriod":300,"enabled":false,"maxReplicas":3,"minReplicas":1,"pollingInterval":30,"restoreToOriginalReplicaCount":false,"scaledObject":{"annotations":{}},"triggers":[]}` | Configures a keda ScaledObject for your Deployment. It's mutually exclusive with hpa autoscaling |
 | krakend.allInOneImage | bool | `false` | Whether the given krakend image to be used contains everything needed for the krakend service to run. If set to false, the image will be used as a base image and the configuration will be loaded from the configmap. Note that the all-in-one image assumes the krakend configuration is located at /etc/krakend-src/config/krakend.tmpl |
 | krakend.config | string, optional | `""` | If set, this key will contain the full configuration of the krakend service |
 | krakend.configFileSource | string, optional | `""` | an external file relative path, will contain the full configuration of the krakend service. useful if config file is generated with flexible config https://www.krakend.io/docs/configuration/flexible-config/ |

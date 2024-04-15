@@ -10,7 +10,7 @@ metadata:
   labels:
     {{- include "krakend.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
+  {{- if eq .Values.autoscaling.enabled .Values.keda.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
