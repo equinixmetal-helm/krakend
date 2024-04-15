@@ -1,8 +1,8 @@
 # Krakend
 
-![Version: 0.1.29](https://img.shields.io/badge/Version-0.1.29-informational?style=for-the-badge)
+![Version: 0.1.31](https://img.shields.io/badge/Version-0.1.31-informational?style=for-the-badge)
 ![Type: application](https://img.shields.io/badge/Type-application-informational?style=for-the-badge)
-![AppVersion: 2.6.0](https://img.shields.io/badge/AppVersion-2.6.0-informational?style=for-the-badge)
+![AppVersion: 2.6.1](https://img.shields.io/badge/AppVersion-2.6.1-informational?style=for-the-badge)
 
 This is a helm chart that deploys a [Krakend](https://www.krakend.io/) instance.
 
@@ -63,7 +63,7 @@ please refer to [the official krakend documentation](https://www.krakend.io/docs
 | image.pullPolicy | string | `"IfNotPresent"` | The image pull policy to use |
 | image.registry | string | `"docker.io"` | The image registry to use |
 | image.repository | string | `"devopsfaith/krakend"` | The image repository to use |
-| image.tag | string | `"2.6.0"` | The image tag to use |
+| image.tag | string | `"2.6.1"` | The image tag to use |
 | imagePullSecrets | list | `[]` | List of secrets containing the credentials to use for the image |
 | ingress | object | `{"annotations":{},"className":"","enabled":false,"hosts":[{"host":"chart-example.local","paths":[{"path":"/","pathType":"ImplementationSpecific"}]}],"tls":[]}` | The ingress settings to use for the krakend ingress |
 | ingress.annotations | object | `{}` | The annotations to use for the ingress |
