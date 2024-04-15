@@ -16,11 +16,9 @@ spec:
   selector:
     matchLabels:
       {{- include "krakend.selectorLabels" . | nindent 6 }}
-  {{- if eq .Values.deploymentType "rollout" }}
   {{- with .Values.strategy }}
   strategy:
     {{- toYaml . | nindent 4 }}
-  {{- end }}
   {{- end }}
   template:
     metadata:
