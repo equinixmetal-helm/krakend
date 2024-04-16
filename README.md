@@ -56,6 +56,7 @@ please refer to [the official krakend documentation](https://www.krakend.io/docs
 |-----|------|---------|-------------|
 | affinity | object | `{}` | The affinity to use for the krakend pod |
 | autoscaling | object | `{"annotations":{},"behavior":{},"enabled":false,"maxReplicas":3,"minReplicas":1,"targetCPUUtilizationPercentage":50,"targetMemoryUtilizationPercentage":50}` | Configures HorizontalPodAutoscaler for your Deployment |
+| deploymentAnnotations | object | `{}` | The annotations to use for the krakend Deployment |
 | deploymentType | string | `"deployment"` | The deployment type to use for the krakend service Valid values are `deployment` and `rollout` |
 | extraVolumeMounts | array | `[]` | extraVolumeMounts allows you to mount extra volumes to the krakend pod |
 | extraVolumes | array | `[]` | extraVolumes allows you to mount extra volumes to the krakend pod |
