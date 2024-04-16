@@ -9,7 +9,7 @@ metadata:
   name: {{ include "krakend.fullname" . }}
   labels:
     {{- include "krakend.labels" . | nindent 4 }}
-  {{- if .Values.deploymentAnnotations }}
+  {{- with .Values.deploymentAnnotations }}
   annotations:
     {{- toYaml .Values.deploymentAnnotations | nindent 4 }}
   {{- end }}
