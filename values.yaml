@@ -19,6 +19,7 @@ deploymentType: deployment
 # a `deployment` or a `rollout` strategy.
 # For more information on the Argo Rollout strategy, see https://argo-rollouts.readthedocs.io/en/stable/features/specification/
 strategy: {}
+#  type: RollingUpdate
 #  rollingUpdate:
 #    maxSurge: 25%
 #    maxUnavailable: 10%
