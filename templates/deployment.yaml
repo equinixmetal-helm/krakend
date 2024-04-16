@@ -11,7 +11,7 @@ metadata:
     {{- include "krakend.labels" . | nindent 4 }}
   {{- with .Values.deploymentAnnotations }}
   annotations:
-    {{- toYaml .Values.deploymentAnnotations | nindent 4 }}
+    {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
   {{- if eq .Values.autoscaling.enabled .Values.keda.enabled }}
