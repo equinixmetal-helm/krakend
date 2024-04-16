@@ -140,6 +140,9 @@ serviceAccount:
 # -- (object) The annotations to use for the krakend pod
 podAnnotations: {}
 
+# -- (object) The annotations to use for the krakend deployment
+deploymentAnnotations: {}
+
 # -- (object) Labels to use for the krakend pod
 podLabels: {}
 
