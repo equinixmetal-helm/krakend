@@ -1,4 +1,11 @@
 {{- if .Values.podDisruptionBudget.enabled -}}
+{{- $replicas := .Values.replicaCount }}
+{{- if and .Values.autoscaling.enabled (not .Values.keda.enabled) }}
+{{- $replicas = .Values.autoscaling.minReplicas }}
+{{- else if and .Values.keda.enabled (not .Values.autoscaling.enabled) }}
+{{- $replicas = .Values.keda.minReplicas }}
+{{- end }}
+{{- if gt ($replicas | int) 1 }}
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
@@ -18,4 +25,5 @@ spec:
   selector:
     matchLabels:
       {{- include "krakend.selectorLabels" . | nindent 6 }}
+{{- end }}
 {{- end }}
