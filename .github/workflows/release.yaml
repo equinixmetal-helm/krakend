@@ -22,8 +22,6 @@ jobs:
           charts_url: 'https://helm.equinixmetal.com'
           repository: 'charts'
           branch: gh-pages
-          app_version: ${{  github.ref_name }}
-          chart_version: ${{  github.ref_name }}
 
   gh-release:
     name: Create GitHub Release
