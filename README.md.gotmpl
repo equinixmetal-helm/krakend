@@ -51,6 +51,23 @@ please refer to [the official krakend documentation](https://www.krakend.io/docs
 
 {{ template "chart.valuesSection" . }}
 
+### Openshift
+
+This chart automatically detects its installation on an openshift cluster, in which case the following properties are removed from the securityContext of pods/containers:
+
+- fsGroup
+- runAsUser
+- runAsGroup
+
+You can force openshift detection with the following value:
+
+```yaml
+global:
+  compatibility:
+    openshift:
+      adaptSecurityContext: "force"
+```
+
 ## Development
 
 ### Prerequisites
