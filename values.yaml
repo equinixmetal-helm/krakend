@@ -146,14 +146,14 @@ deploymentAnnotations: {}
 # -- (object) Labels to use for the krakend pod
 podLabels: {}
 
+podSecurityContextEnabled: false
 # -- (object) The securityContext to use for the krakend pod
-podSecurityContext:
-  enabled: false
+# podSecurityContext:
   # fsGroup: 2000
 
+securityContextEnabled: true
 # -- (object) The securityContext to use for the krakend container
 securityContext:
-  enabled: true
   allowPrivilegeEscalation: false
   runAsNonRoot: true
   runAsUser: 1000
