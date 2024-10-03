@@ -148,7 +148,7 @@ podLabels: {}
 
 podSecurityContextEnabled: false
 # -- (object) The securityContext to use for the krakend pod
-# podSecurityContext:
+podSecurityContext: {}
   # fsGroup: 2000
 
 securityContextEnabled: true
