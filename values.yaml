@@ -34,6 +34,8 @@ krakend:
   # -- (array) The environment variables to use for the krakend container.
   # The default is just the ones needed to enable flexible configuration.
   env: []
+  # -- (string) The name of the secret containing the environment variables to use for the krakend container.
+  envFromSecret: ""
   # -- (string, optional) If set, this key will contain the full configuration of the krakend service
   config: ""
   # -- (string, optional) an external file relative path, will contain the full
