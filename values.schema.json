@@ -96,6 +96,9 @@
                 "env": {
                     "type": "array"
                 },
+                "envFromSecret": {
+                    "type": "string"
+                },
                 "extraConfig": {
                     "type": "object"
                 },

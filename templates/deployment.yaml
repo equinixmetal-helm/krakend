@@ -78,6 +78,11 @@ spec:
             {{- with .Values.krakend.env }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
+          {{- if .Values.krakend.envFromSecret }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.krakend.envFromSecret }}
+          {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.service.targetPort }}
