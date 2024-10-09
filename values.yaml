@@ -7,7 +7,7 @@ image:
   # -- The image repository to use
   repository: devopsfaith/krakend
   # -- The image tag to use
-  tag: "2.2.1"
+  tag: "2.7.2"
   # -- The image pull policy to use
   pullPolicy: IfNotPresent
 
@@ -19,6 +19,10 @@ deploymentType: deployment
 # a `deployment` or a `rollout` strategy.
 # For more information on the Argo Rollout strategy, see https://argo-rollouts.readthedocs.io/en/stable/features/specification/
 strategy: {}
+#  type: RollingUpdate
+#  rollingUpdate:
+#    maxSurge: 25%
+#    maxUnavailable: 10%
 
 krakend:
   # -- (bool) Whether the given krakend image to be used contains everything needed
@@ -30,8 +34,20 @@ krakend:
   # -- (array) The environment variables to use for the krakend container.
   # The default is just the ones needed to enable flexible configuration.
   env: []
+  # -- (string) The name of the secret containing the environment variables to use for the krakend container.
+  envFromSecret: ""
   # -- (string, optional) If set, this key will contain the full configuration of the krakend service
   config: ""
+  # -- (string, optional) an external file relative path, will contain the full
+  # configuration of the krakend service. useful if config file is generated
+  # with flexible config https://www.krakend.io/docs/configuration/flexible-config/
+  configFileSource: ""
+  # -- (string, optional) an external file relative path, will contain the partial configuration files of the krakend service.
+  partialsDirSource: ""
+  # -- (string, optional) an external file relative path, will contain the setting configuration files of the krakend service.
+  settingsDirSource: ""
+  # -- (string, optional) an external file relative path, will contain the template configuration files of the krakend service.
+  templatesDirSource: ""
   # -- (Object) The default configuration has a partials files that
   # will be used to load several aspects of the configuration.
   # If you want to include expra partials, add or remove them here.
@@ -126,6 +142,12 @@ serviceAccount:
 # -- (object) The annotations to use for the krakend pod
 podAnnotations: {}
 
+# -- (object) The annotations to use for the krakend deployment
+deploymentAnnotations: {}
+
+# -- (object) Labels to use for the krakend pod
+podLabels: {}
+
 # -- (object) The securityContext to use for the krakend pod
 podSecurityContext: {}
   # fsGroup: 2000
@@ -154,6 +176,14 @@ service:
   targetPort: 8080
   # -- (object) The annotations to use for the service
   annotations: {}
+  # -- (object) The service settings to reach the metrics port
+  metrics:
+    # -- (bool) Specifies whether the metrics port is reachable
+    enabled: false
+    # -- (int) The port to use for the metrics service
+    port: 9100
+    # -- (int) The target port to use for the metrics service
+    targetPort: 9100
 
 # -- (object) The ingress settings to use for the krakend ingress
 ingress:
@@ -176,6 +206,9 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
+# -- (object) Krakend container lifecycle hooks (PostStart, PreStop)
+lifecycle: {}
+
 # -- (object) The resources to use for the krakend pod
 resources: {}
 
@@ -187,6 +220,9 @@ tolerations: []
 
 # -- (object) The affinity to use for the krakend pod
 affinity: {}
+
+# -- (array) The topologySpreadConstraints to use for the krakend pod
+topologySpreadConstraints: []
 
 # -- (array) extraVolumeMounts allows you to mount extra volumes to the krakend pod
 extraVolumeMounts: []
@@ -208,6 +244,17 @@ readinessProbe:
     port: http
     scheme: HTTPS
 
+# -- (object) podDisruptionBudget allows you to define minumum and maximum available pods
+podDisruptionBudget:
+  # -- (bool) Set to true to create a default ServiceMonitor for your application
+  enabled: false
+  # -- minimum available pods
+  minAvailable: 1
+  # -- maximum available pods
+  maxUnavailable: ""
+  # -- UnhealthyPodEvictionPolicy defines the criteria for when unhealthy pods should be considered for eviction
+  unhealthyPodEvictionPolicy: ""
+
 # -- (object) The serviceMonitor configures a ServiceMonitor for your application
 serviceMonitor:
   # -- (bool) Set to true to create a default ServiceMonitor for your application
@@ -223,3 +270,78 @@ serviceMonitor:
 
 openshift:
   trustSignerCA: false
+
+# -- (object) The networkPolicies configures ingress NetworkPolicies for your application
+networkPolicies:
+  # -- (bool) Set to true to create NetworkPolicies for your application
+  enabled: false
+  # -- (list) List of NetworkPolicy objects
+  policies:
+    # -- Name of the NetworkPolicy
+    - name: "allow-namespace1"
+      # -- Name of the namespace allowed to reach (or be reached by) your application
+      namespace: "namespace1"
+      # -- Type of the network policy (ingress or egress)
+      type: "ingress"
+    # - name: "allow-namespace2"
+      # -- Name of the namespace allowed to reach (or be reached by) your application
+      # namespace: "namespace2"
+      # -- Type of the network policy (ingress or egress)
+      # type: "egress"
+
+# -- (object) Configures HorizontalPodAutoscaler for your Deployment
+autoscaling:
+  enabled: false
+  annotations: {}
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 50
+  targetMemoryUtilizationPercentage: 50
+  behavior: {}
+  # scaleDown:
+  #   stabilizationWindowSeconds: 300
+  #   policies:
+  #   - type: Pods
+  #     value: 1
+  #     periodSeconds: 180
+  # scaleUp:
+  #   stabilizationWindowSeconds: 300
+  #   policies:
+  #   - type: Pods
+  #     value: 2
+  #     periodSeconds: 60
+
+# -- (object) Configures a keda ScaledObject for your Deployment.
+# It's mutually exclusive with hpa autoscaling
+keda:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
+  pollingInterval: 30
+  cooldownPeriod: 300
+  # fallback:
+  #   failureThreshold: 3
+  #   replicas: 11
+  restoreToOriginalReplicaCount: false
+  scaledObject:
+    annotations: {}
+  triggers: []
+  # - type: prometheus
+  #   metadata:
+  #     serverAddress: http://<prometheus-host>:9090
+  #     metricName: http_requests_total
+  #     threshold: '100'
+  #     query: sum(rate(http_requests_total{deployment="my-deployment"}[2m]))
+  behavior: {}
+  # scaleDown:
+  #   stabilizationWindowSeconds: 300
+  #   policies:
+  #   - type: Pods
+  #     value: 1
+  #     periodSeconds: 180
+  # scaleUp:
+  #   stabilizationWindowSeconds: 300
+  #   policies:
+  #   - type: Pods
+  #     value: 2
+  #     periodSeconds: 60

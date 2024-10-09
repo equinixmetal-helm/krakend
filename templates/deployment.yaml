@@ -9,21 +9,25 @@ metadata:
   name: {{ include "krakend.fullname" . }}
   labels:
     {{- include "krakend.labels" . | nindent 4 }}
+  {{- with .Values.deploymentAnnotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
+  {{- if eq .Values.autoscaling.enabled .Values.keda.enabled }}
   replicas: {{ .Values.replicaCount }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "krakend.selectorLabels" . | nindent 6 }}
-  {{- if eq .Values.deploymentType "rollout" }}
   {{- with .Values.strategy }}
   strategy:
     {{- toYaml . | nindent 4 }}
   {{- end }}
-  {{- end }}
   template:
     metadata:
       annotations:
-        {{- if .Values.krakend.allInOneImage }}
+        {{- if not .Values.krakend.allInOneImage }}
         checksum/cm-config: {{ include (print $.Template.BasePath "/cm-config.yaml") . | sha256sum }}
         checksum/cm-partials: {{ include (print $.Template.BasePath "/cm-partials.yaml") . | sha256sum }}
         checksum/cm-settings: {{ include (print $.Template.BasePath "/cm-settings.yaml") . | sha256sum }}
@@ -34,6 +38,9 @@ spec:
         {{- end }}
       labels:
         {{- include "krakend.selectorLabels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -71,6 +78,11 @@ spec:
             {{- with .Values.krakend.env }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
+          {{- if .Values.krakend.envFromSecret }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.krakend.envFromSecret }}
+          {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.service.targetPort }}
@@ -110,6 +122,8 @@ spec:
             {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          lifecycle:
+            {{- toYaml .Values.lifecycle | nindent 12 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -120,6 +134,10 @@ spec:
       {{- end }}
       {{- with .Values.tolerations }}
       tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:

@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout tag
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.ref }}
 
@@ -22,8 +22,6 @@ jobs:
           charts_url: 'https://helm.equinixmetal.com'
           repository: 'charts'
           branch: gh-pages
-          app_version: ${{  github.ref_name }}
-          chart_version: ${{  github.ref_name }}
 
   gh-release:
     name: Create GitHub Release
@@ -32,10 +30,10 @@ jobs:
       contents: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true
 

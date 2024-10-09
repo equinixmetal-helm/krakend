@@ -89,8 +89,15 @@
                 "config": {
                     "type": "string"
                 },
+                "configFileSource": {
+                    "description" : "an external file's relative path contains the full krakend configuration",
+                    "type": "string"
+                },
                 "env": {
                     "type": "array"
+                },
+                "envFromSecret": {
+                    "type": "string"
                 },
                 "extraConfig": {
                     "type": "object"
@@ -231,6 +238,32 @@
         "nameOverride": {
             "type": "string"
         },
+        "networkPolicies": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                },
+                "policies": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "namespace": {
+                                "type": "string"
+                            },
+                            "type": {
+                                "type": "string"
+                            }
+                        },
+                        "required": ["name", "namespace", "type"]
+                    }
+                }
+            }
+        },
         "nodeSelector": {
             "type": "object"
         },
@@ -368,6 +401,10 @@
         "resources": {
             "type": "object"
         },
+        "lifecycle": {
+            "description" : "Add a lifecycle hooks (PostStart, PreStop) https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/",
+            "type": "object"
+        },
         "strategy": {
             "type": "object"
         },
@@ -419,6 +456,9 @@
               "type": "boolean"
             }
           }
+        }
+        "topologySpreadConstraints": {
+            "type": "array"
         }
     }
 }

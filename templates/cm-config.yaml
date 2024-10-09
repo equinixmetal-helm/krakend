@@ -5,6 +5,12 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: {{ include "krakend.fullname" . }}-config
+{{- if .Values.krakend.configFileSource }}
+binaryData:
+  {{ include "krakend.configFileName" . }}: |-
+{{ .Files.Get .Values.krakend.configFileSource | b64enc | indent 4}}
+{{- else }}
+
 data:
   {{ include "krakend.configFileName" . }}: |
 {{- if .Values.krakend.config }}
@@ -25,5 +31,6 @@ data:
         "endpoints": {{ include "endpoints.tmpl" }},
         "extra_config": `}}{{ .Values.krakend.extraConfig | toJson }}{{`
     }`}}
+{{- end }}
 {{- end }}
 {{- end }}
