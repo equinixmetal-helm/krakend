@@ -449,6 +449,9 @@
         "tolerations": {
             "type": "array"
         },
+        "topologySpreadConstraints": {
+            "type": "array"
+        },
         "openshift": {
           "type": "object",
           "properties": {
@@ -456,9 +459,6 @@
               "type": "boolean"
             }
           }
-        },
-        "topologySpreadConstraints": {
-            "type": "array"
         }
     }
 }
