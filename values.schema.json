@@ -456,7 +456,7 @@
               "type": "boolean"
             }
           }
-        }
+        },
         "topologySpreadConstraints": {
             "type": "array"
         }
