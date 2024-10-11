@@ -101,11 +101,13 @@ please refer to [the official krakend documentation](https://www.krakend.io/docs
 | podDisruptionBudget.minAvailable | int | `1` | minimum available pods |
 | podDisruptionBudget.unhealthyPodEvictionPolicy | string | `""` | UnhealthyPodEvictionPolicy defines the criteria for when unhealthy pods should be considered for eviction |
 | podLabels | object | `{}` | Labels to use for the krakend pod |
+| podSecurityContextEnabled | bool | `false` | Enabled the securityContext to use for the krakend pod |
 | podSecurityContext | object | `{}` | The securityContext to use for the krakend pod |
 | readinessProbe | object | `{"httpGet":{"path":"/__health","port":"http"}}` | The readinessProbe to use for the krakend pod |
 | replicaCount | int | `1` | Number of replicas to deploy |
 | resources | object | `{}` | The resources to use for the krakend pod |
-| securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"add":["NET_BIND_SERVICE"],"drop":["ALL"]},"readOnlyRootFilesystem":true,"runAsNonRoot":true,"runAsUser":1000}` | The securityContext to use for the krakend container |
+| securityContextEnabled | bool | `true` | Enable the securityContext to use for the krakend pod |
+| securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"add":["NET_BIND_SERVICE"],"drop":["ALL"]},"enabled":true,"readOnlyRootFilesystem":true,"runAsNonRoot":true,"runAsUser":1000}` | The securityContext to use for the krakend container |
 | service | object | `{"annotations":{},"externalTrafficPolicy":"","metrics":{"enabled":false,"port":9100,"targetPort":9100},"port":80,"targetPort":8080,"type":"ClusterIP"}` | The service settings to use for the krakend service |
 | service.annotations | object | `{}` | The annotations to use for the service |
 | service.externalTrafficPolicy | string | `""` | The External Traffic Policy of the service |
