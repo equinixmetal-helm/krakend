@@ -88,11 +88,9 @@ spec:
             - name: http
               containerPort: {{ .Values.service.targetPort }}
               protocol: TCP
-          {{- if .Values.serviceMonitor.enabled }}
             - name: metrics
               containerPort: {{ .Values.serviceMonitor.targetPort }}
               protocol: TCP
-          {{- end }}
           {{- with .Values.livenessProbe }}
           livenessProbe: {{ toYaml . | nindent 12 }}
           {{- end }}
