@@ -109,3 +109,17 @@ Get krakend templates directory path
 {{- define "krakend.templatesDir" -}}
 {{- printf "%s/templates" (include "krakend.FilesDir" .) -}}
 {{- end }}
+
+{{/*
+Get krakend tls cert directory path
+*/}}
+{{- define "krakend.tlsCertDir" -}}
+{{- printf "%s/tls" (include "krakend.FilesDir" .) -}}
+{{- end }}
+
+{{/*
+Get krakend tls CA directory path
+*/}}
+{{- define "krakend.tlsCADir" -}}
+{{- printf "%s/tlsCA" (include "krakend.FilesDir" .) -}}
+{{- end }}

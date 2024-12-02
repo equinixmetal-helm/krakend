@@ -1,0 +1,21 @@
+{{- if and .Values.openshift .Values.openshift.route.contextPath }}
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: {{ include "krakend.fullname" . }}-route
+spec:
+  {{- if .Values.openshift.route.host }}
+  host: {{ .Values.openshift.route.host }}
+  {{- end }}
+  path: {{ .Values.openshift.route.contextPath }}
+  to:
+    kind: Service
+    name: {{ include "krakend.fullname" . }}
+    weight: 100
+  port:
+    targetPort: http
+  tls:
+    termination: reencrypt
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None
+{{ end }}
