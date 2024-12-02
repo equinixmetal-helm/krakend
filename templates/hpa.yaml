@@ -3,6 +3,7 @@ apiVersion: {{ ternary "autoscaling/v2" "autoscaling/v2beta2" (.Capabilities.API
 kind: HorizontalPodAutoscaler
 metadata:
   name: {{ include "krakend.fullname" . }}
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "krakend.labels" . | nindent 4 }}
   {{- with .Values.autoscaling.annotations }}
