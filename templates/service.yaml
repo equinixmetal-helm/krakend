@@ -27,5 +27,11 @@ spec:
       protocol: TCP
       name: metric
     {{- end }}
+    {{- if .Values.krakend.designer.enabled }}
+    - port: {{ .Values.krakend.designer.port }}
+      targetPort: {{ .Values.krakend.designer.targetPort }}
+      protocol: TCP
+      name: designer
+    {{- end }}
   selector:
     {{- include "krakend.selectorLabels" . | nindent 4 }}

@@ -84,6 +84,15 @@ please refer to [the official krakend documentation](https://www.krakend.io/docs
 | krakend.settingsDirSource | string, optional | `""` | an external file relative path, will contain the setting configuration files of the krakend service. |
 | krakend.templates | object | `{}` | While default configuration does not take into use templates; you may want to add your own templates here. Note that you'd need to set a custom configuration file to use them. |
 | krakend.templatesDirSource | string, optional | `""` | an external file relative path, will contain the template configuration files of the krakend service. |
+| krakend.designer.enabled | bool | `false` | Specifies whether an designer should be created |
+| krakend.designer.port | int | `8088` | The port to use for the designer service |
+| krakend.designer.targetPort | int | `80` | The target port to use for the designer service |
+| krakend.designed.repository | string | `"krakend/designer"` | The image repository to use |
+| krakend.designed.tag | string | `"2.4"` | The image tag to use |
+| krakend.designer.pullPolicy | string | `"IfNotPresent"` | The image pull policy to use |
+| krakend.designer.livenessProbe | object | `{"httpGet":{"path":"/","port":"designer"}}` | The livenessProbe to use for the designer |
+| krakend.designer.readinessProbe | object | `{"httpGet":{"path":"/","port":"designer"}}` | The readinessProbe to use for the designer |
+| krakend.designer.resources | object | `{}` | The resources to use for the designer |
 | lifecycle | object | `{}` | Krakend container lifecycle hooks (PostStart, PreStop) |
 | livenessProbe | object | `{"httpGet":{"path":"/__health","port":"http"}}` | The livenessProbe to use for the krakend pod |
 | nameOverride | string | `""` |  |
