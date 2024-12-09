@@ -125,6 +125,32 @@ krakend:
       logger_skip_paths:
         - "/__health"
 
+  designer:
+    # -- (bool) Specifies whether an designer should be created
+    enabled: true
+    # -- (int) The port to use for the designer service
+    port: 8088
+    # -- (int) The target port to use for the designer service
+    targetPort: 80
+    # -- The image repository to use
+    repository: krakend/designer
+    # -- The image tag to use
+    tag: "2.4"
+    # -- The image pull policy to use
+    pullPolicy: IfNotPresent
+    # -- (object) The livenessProbe to use for the designer
+    livenessProbe:
+      httpGet:
+        path: /
+        port: designer
+    # -- (object) The readinessProbe to use for the designer
+    readinessProbe:
+      httpGet:
+        path: /
+        port: designer
+    # -- (object) The resources to use for the designer
+    resources: {}
+
 # -- (list) List of secrets containing the credentials to use for the image
 imagePullSecrets: []
 nameOverride: ""
