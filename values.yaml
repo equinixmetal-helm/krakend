@@ -235,12 +235,14 @@ livenessProbe:
   httpGet:
     path: /__health
     port: http
+    scheme: HTTPS
 
 # -- (object) The readinessProbe to use for the krakend pod
 readinessProbe:
   httpGet:
     path: /__health
     port: http
+    scheme: HTTPS
 
 # -- (object) podDisruptionBudget allows you to define minumum and maximum available pods
 podDisruptionBudget:
@@ -265,6 +267,9 @@ serviceMonitor:
   scrapeTimeout: 10s
   # -- prometheus metrics port exposed by krakend
   targetPort: 9091
+
+openshift:
+  trustSignerCA: false
 
 # -- (object) The networkPolicies configures ingress NetworkPolicies for your application
 networkPolicies:
