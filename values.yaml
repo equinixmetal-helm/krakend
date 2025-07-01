@@ -230,6 +230,25 @@ extraVolumeMounts: []
 # -- (array) extraVolumes allows you to mount extra volumes to the krakend pod
 extraVolumes: []
 
+## Add your own init container (example installation of plugins)
+## Ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
+initContainers: {}
+  # - name: load-plugin
+  #   image: "appropriate/curl:latest"
+  #   imagePullPolicy: "IfNotPresent"
+  #   # Assumed plugins volume is configured at Pod level via extraVolumes
+  #   volumeMounts:
+  #     - name: plugins
+  #       mountPath: /usr/lib/krakend/plugins
+  #   command:
+  #     - "/bin/sh"
+  #     - "-c"
+  #     - |
+  #       [[ ! -f /usr/lib/krakend/plugins/krakend-http-cache.so ]] && \
+  #       curl -L https://github.com/onliner/krakend-http-cache/releases/download/v0.4.0/krakend-http-cache.zip -o /tmp/krakend-http-cache.zip &&
+  #       unzip /tmp/krakend-http-cache.zip -d /usr/lib/krakend/plugins &&
+  #       rm /tmp/krakend-http-cache.zip
+
 # -- (object) The livenessProbe to use for the krakend pod
 livenessProbe:
   httpGet:
