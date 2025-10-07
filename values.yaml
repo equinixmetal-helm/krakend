@@ -251,6 +251,7 @@ initContainers: {}
 
 # -- (object) The livenessProbe to use for the krakend pod
 livenessProbe:
+  failureThreshold: 6
   httpGet:
     path: /__health
     port: http
