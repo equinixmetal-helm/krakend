@@ -127,6 +127,7 @@ please refer to [the official krakend documentation](https://www.krakend.io/docs
 | serviceMonitor.scrapeTimeout | string | `"10s"` | time out interval when scraping metrics |
 | serviceMonitor.targetPort | int | `9091` | prometheus metrics port exposed by krakend |
 | strategy | object | `{}` | The strategy for the krakend deployment. This can either be a `deployment` or a `rollout` strategy. For more information on the Argo Rollout strategy, see https://argo-rollouts.readthedocs.io/en/stable/features/specification/ |
+| terminationGracePeriodSeconds | int | `30` | Number of seconds the pod needs to terminate gracefully |
 | tolerations | object | `[]` | The tolerations to use for the krakend pod |
 | topologySpreadConstraints | array | `[]` | The topologySpreadConstraints to use for the krakend pod |
 
