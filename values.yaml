@@ -15,6 +15,9 @@ image:
 # Valid values are `deployment` and `rollout`
 deploymentType: deployment
 
+# -- (int) Number of seconds the pod needs to terminate gracefully
+terminationGracePeriodSeconds: 30
+
 # -- (object) The strategy for the krakend deployment. This can either be
 # a `deployment` or a `rollout` strategy.
 # For more information on the Argo Rollout strategy, see https://argo-rollouts.readthedocs.io/en/stable/features/specification/

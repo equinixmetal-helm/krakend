@@ -446,6 +446,11 @@
                 }
             }
         },
+        "terminationGracePeriodSeconds": {
+            "description": "Number of seconds the pod needs to terminate gracefully",
+            "format": "int32",
+            "type": "integer"
+        },
         "tolerations": {
             "type": "array"
         },
