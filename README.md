@@ -64,7 +64,7 @@ please refer to [the official krakend documentation](https://www.krakend.io/docs
 | image.pullPolicy | string | `"IfNotPresent"` | The image pull policy to use |
 | image.registry | string | `"docker.io"` | The image registry to use |
 | image.repository | string | `"devopsfaith/krakend"` | The image repository to use |
-| image.tag | string | `"2.7.2"` | The image tag to use |
+| image.tag | string | `"2.9.4"` | The image tag to use |
 | imagePullSecrets | list | `[]` | List of secrets containing the credentials to use for the image |
 | ingress | object | `{"annotations":{},"className":"","enabled":false,"hosts":[{"host":"chart-example.local","paths":[{"path":"/","pathType":"ImplementationSpecific"}]}],"tls":[]}` | The ingress settings to use for the krakend ingress |
 | ingress.annotations | object | `{}` | The annotations to use for the ingress |
@@ -86,7 +86,7 @@ please refer to [the official krakend documentation](https://www.krakend.io/docs
 | krakend.templates | object | `{}` | While default configuration does not take into use templates; you may want to add your own templates here. Note that you'd need to set a custom configuration file to use them. |
 | krakend.templatesDirSource | string, optional | `""` | an external file relative path, will contain the template configuration files of the krakend service. |
 | lifecycle | object | `{}` | Krakend container lifecycle hooks (PostStart, PreStop) |
-| livenessProbe | object | `{"httpGet":{"path":"/__health","port":"http"}}` | The livenessProbe to use for the krakend pod |
+| livenessProbe | object | `{"failureThreshold":6,"httpGet":{"path":"/__health","port":"http"}}` | The livenessProbe to use for the krakend pod |
 | nameOverride | string | `""` |  |
 | networkPolicies | object | `{"enabled":false,"policies":[{"name":"allow-namespace1","namespace":"namespace1","type":"ingress"}]}` | The networkPolicies configures ingress NetworkPolicies for your application |
 | networkPolicies.enabled | bool | `false` | Set to true to create NetworkPolicies for your application |
