@@ -5,11 +5,14 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "krakend.labels" . | nindent 4 }}
-  {{- if .Values.service.annotations }}
+  {{- if coalesce .Values.service.annotations .Values.openshift.trustSignerCA }}
   annotations:
     {{- range $key, $value := .Values.service.annotations }}
     {{ $key }}: {{ tpl $value $ | quote }}
     {{- end }}
+    {{- if .Values.openshift.trustSignerCA }}
+    service.beta.openshift.io/serving-cert-secret-name: {{ include "krakend.fullname" . }}-service-cert
+    {{- end}}
   {{- end }}
 spec:
   {{- if .Values.service.externalTrafficPolicy }}

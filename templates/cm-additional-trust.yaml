@@ -1,0 +1,10 @@
+{{- if .Values.openshift.trustSignerCA }}
+# This ConfigMap is used to get access to the OpenShift service signer CA
+# see https://docs.openshift.com/container-platform/4.8/security/certificates/service-serving-certificate.html#add-service-certificate-configmap_service-serving-certificate
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ include "krakend.fullname" . }}-additional-trust
+  annotations:
+    service.beta.openshift.io/inject-cabundle: 'true'
+{{- end }}
