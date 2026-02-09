@@ -34,6 +34,11 @@ spec:
         checksum/cm-settings: {{ include (print $.Template.BasePath "/cm-settings.yaml") . | sha256sum }}
         checksum/cm-templates: {{ include (print $.Template.BasePath "/cm-templates.yaml") . | sha256sum }}
         {{- end }}
+        {{- with .Values.externalConfigMapsToHash }}
+        {{- range . }}
+        checksum/external-cm-{{ .name }}: {{ (lookup "v1" "ConfigMap" $.Release.Namespace .name).data | toYaml | sha256sum }}
+        {{- end }}
+        {{- end }}
         {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}

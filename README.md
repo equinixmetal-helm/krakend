@@ -60,6 +60,7 @@ please refer to [the official krakend documentation](https://www.krakend.io/docs
 | deploymentType | string | `"deployment"` | The deployment type to use for the krakend service Valid values are `deployment` and `rollout` |
 | extraVolumeMounts | array | `[]` | extraVolumeMounts allows you to mount extra volumes to the krakend pod |
 | extraVolumes | array | `[]` | extraVolumes allows you to mount extra volumes to the krakend pod |
+| externalConfigMapsToHash | array | `[]` | List of external ConfigMap names to hash for rollout triggers. If you mount external ConfigMaps via extraVolumes, list their names here to ensure the deployment rolls when they change. |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` | The image pull policy to use |
 | image.registry | string | `"docker.io"` | The image registry to use |
@@ -129,6 +130,21 @@ please refer to [the official krakend documentation](https://www.krakend.io/docs
 | strategy | object | `{}` | The strategy for the krakend deployment. This can either be a `deployment` or a `rollout` strategy. For more information on the Argo Rollout strategy, see https://argo-rollouts.readthedocs.io/en/stable/features/specification/ |
 | tolerations | object | `[]` | The tolerations to use for the krakend pod |
 | topologySpreadConstraints | array | `[]` | The topologySpreadConstraints to use for the krakend pod |
+
+## Hashing External ConfigMaps for Rollouts
+
+If you mount external ConfigMaps using `extraVolumes`, you can ensure your deployment rolls when those ConfigMaps change by specifying their names in `externalConfigMapsToHash`:
+
+```yaml
+extraVolumes:
+  - name: my-external-configmap
+    configMap:
+      name: my-external-configmap
+externalConfigMapsToHash:
+  - name: my-external-configmap
+```
+
+This will add a checksum annotation for each listed ConfigMap, so any change to the ConfigMap will trigger a new rollout.
 
 ## Development
 

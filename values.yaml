@@ -230,6 +230,13 @@ extraVolumeMounts: []
 # -- (array) extraVolumes allows you to mount extra volumes to the krakend pod
 extraVolumes: []
 
+# -- (array) List of external ConfigMap names to hash for rollout triggers.
+# If you mount external ConfigMaps via extraVolumes, list their names here to ensure the deployment rolls when they change.
+# Example:
+# externalConfigMapsToHash:
+#   - name: my-external-configmap
+externalConfigMapsToHash: []
+
 ## Add your own init container (example installation of plugins)
 ## Ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
 initContainers: {}
