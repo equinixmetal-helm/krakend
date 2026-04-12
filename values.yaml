@@ -206,6 +206,52 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
+# -- (object) Gateway API configuration (gateway.networking.k8s.io)
+gateway:
+  # -- (bool) Specifies whether a Gateway resource should be created.
+  # Set to false if a Gateway already exists in your cluster and you only
+  # want to create an HTTPRoute that attaches to it.
+  enabled: false
+  # -- (object) Annotations to add to the Gateway
+  annotations: {}
+  # -- (string) The GatewayClass name to use (e.g. "nginx", "istio", "cilium")
+  gatewayClassName: ""
+  # -- (list) Listeners for the Gateway
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+  #  - name: https
+  #    protocol: HTTPS
+  #    port: 443
+  #    tls:
+  #      mode: Terminate
+  #      certificateRefs:
+  #        - name: my-cert-secret
+
+  # -- (object) HTTPRoute configuration
+  httpRoute:
+    # -- (bool) Specifies whether an HTTPRoute should be created
+    enabled: false
+    # -- (object) Annotations to add to the HTTPRoute
+    annotations: {}
+    # -- (list) Hostnames that this HTTPRoute should match.
+    # Leave empty to match all hostnames.
+    hostnames: []
+    # - chart-example.local
+    # -- (list) Parent Gateway references this HTTPRoute should attach to.
+    # Required when httpRoute.enabled is true.
+    parentRefs:
+      - name: ""
+        # namespace: ""     # omit if Gateway is in the same namespace
+        # sectionName: ""   # omit to attach to all listeners
+    # -- (list) Route rules. Defaults to forwarding all traffic to the krakend service.
+    rules:
+      - matches:
+          - path:
+              type: PathPrefix
+              value: /
+
 # -- (object) Krakend container lifecycle hooks (PostStart, PreStop)
 lifecycle: {}
 
